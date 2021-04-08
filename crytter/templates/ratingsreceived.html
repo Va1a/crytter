@@ -116,6 +116,10 @@
 			</div>
 		</fieldset>
 		  <a class="pink-hi" href="{{ url_for('main.help', topic='rating-impact')}}"><small class="text-muted" style="font-style: italic;">How does my rating impact this user?</small></a>
+		  {% if current_user.rating < 0 %}
+		  <br>
+		  <small class="red">Your reputability is below zero, so your rating will not impact {{ user.username }}'s reputability.</small>
+		  {% endif %}
 		</div>
 	      <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
