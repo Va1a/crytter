@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+{% block content %}
+<script type="text/javascript">
+setInputFilter(document.getElementById("HMG"), function(value) {return /^\d*\.?\d*$/.test(value);});
+setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\d*$/.test(value);});
+</script>
+<div class='content-section'>
+	<form method='POST' action=''>
+		{{ form.hidden_tag() }}
+		<fieldset class='form-group'>
+			<legend class='border-bottom mb-4'>{{ legend }}</legend>
+			<div class='form-group'>
+				{{ form.wanted.label(class='form-control-label') }}
+				
+				{% if form.wanted.errors %}
+					{{ form.wanted(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.wanted.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.wanted(class='form-control form-control-lg') }}
+				{% endif %}	
+			</div>
+			<div class='form-group'>
+				{{ form.howMuchWanted.label(class='form-control-label') }} <samp>ex. 23.00</samp>
+				
+				{% if form.howMuchWanted.errors %}
+					{{ form.howMuchWanted(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.howMuchWanted.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.howMuchWanted(class='form-control form-control-lg', id='HMW') }}
+				{% endif %}	
+			</div>
+			<hr>
+			<div class='form-group'>
+				{{ form.giving.label(class='form-control-label') }}
+				
+				{% if form.giving.errors %}
+					{{ form.giving(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.giving.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.giving(class='form-control form-control-lg') }}
+				{% endif %}	
+			</div>
+			<div class='form-group'>
+				{{ form.howMuchGiving.label(class='form-control-label') }} <samp>ex. 10.00</samp>
+				
+				{% if form.howMuchGiving.errors %}
+					{{ form.howMuchGiving(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.howMuchGiving.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.howMuchGiving(class='form-control form-control-lg', id='HMG') }}
+				{% endif %}	
+			</div>
+			<hr>
+			<div class='form-group'>
+				{{ form.content.label(class='form-control-label') }} <samp>ex. Payment method, contact method, etc.</samp>
+				
+				{% if form.content.errors %}
+					{{ form.content(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.content.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.content(class='form-control form-control-lg', maxlength='2000') }}
+				{% endif %}	
+			</div>
+		</fieldset>
+		<div class='form-group'>
+			<input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="{{ submit }}">
+		</div>
+	</form>
+</div>
+{% endblock content %}

@@ -1,0 +1,159 @@
+{% extends 'layout.html' %}
+{% block content %}
+<script type="text/javascript">
+function setCommentID(id) {
+document.getElementById('deleteCommentForm').action = '/comment/'+id+'/delete?returnid='+{{ post.id }};
+};
+</script>
+{% if post.author.rating < 0 %}
+<div class="content-section">
+	<h2 class="article-title red">Warning!</h2>
+	This user's reputability (rating) is negative. It is advised you are extra cautious when dealing with this user.
+</div>
+{% endif %}
+<article class="media content-section">
+<div class='col-'>
+<img class='rounded-circle article-img' src='{{ url_for("static", filename="profile_pics/" + post.author.image_file) }}'>
+<div class='row-'>
+{{ post.author.rateBar|safe }}
+</div>
+</div>
+
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}">{{ post.author.username }}</a>
+      <small class="text-muted">{% if post.sticky %}<span class="fa fa-thumb-tack blue" title="Pinned Offer (Advertisement)"></span> {% endif %}{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
+      	<div style="float:right;" class="mr-2">
+      		<button class='btn btn-info btn-xs' onclick="window.history.back()">back</button>
+      	{% if post.author == current_user %}
+      		<a type="button" class="btn btn-secondary btn-xs" href="{{ url_for('posts.update_post', post_id=post.id) }}">edit</a>
+      		<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal">delete</button>
+      	{% endif %}
+      	</div>
+    </div>
+    <h2 class="article-title">{% if current_user != post.author %}Give <span class="give">{{ post.amountWanted }} {{ post.wanted }}</span> <span class="TS">⇄</span> Get <span class="get">{{ post.amountGiving }} {{ post.giving }}</span>{% else %}You are offering: <span class="give">{{ post.amountGiving }} {{ post.giving }}</span>{% endif %}</h2>
+    <p class="article-description">
+    	{% if post.author == current_user %}
+    	As the <b>offeror</b>, you will get
+    	<samp class="get">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountGiving }} {{ post.giving }}</samp>
+    	 to the <b>offeree</b>.
+    	{% else %}
+    	As the <b>offeree</b>, you will get
+    	<samp class="get">{{ post.amountGiving }} {{ post.giving }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	 to the <b>offeror</b>.
+    	{% endif %}
+    </p>
+    <p class="article-content"><i>{{ post.content }}</i></p>
+  </div>
+</article>
+
+<div class='content-section'>
+	{% if current_user.is_authenticated %}
+	<form method='POST' action=''>
+		{{ form.hidden_tag() }}
+		<fieldset class='form-group'>
+			<div class='form-group'>
+				{{ form.content.label(class='form-control-label') }}
+				
+				{% if form.content.errors %}
+					{{ form.content(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.content.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.content(class='form-control form-control-lg', maxlength='1000') }}
+				{% endif %}	
+			</div>
+		</fieldset>
+		<div class='form-group'>
+			<input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="{{ submit }}">
+		</div>
+	</form>
+	{% else %}
+	You must be logged in to add a comment...
+	{% endif %}
+</div>
+
+
+{% for comment in comments.items %}
+<article class="media content-section">
+	<img class='rounded-circle article-img' src='{{ url_for("static", filename="profile_pics/" + comment.author.image_file) }}'>
+	<div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="{{ url_for('users.userpage', username=comment.author.username) }}">{{ comment.author.username }}</a>
+      <small class="text-muted">{{ comment.date_commented.strftime('%B %d, %Y - %I:%M %p') }}</small>
+      	<div style="float:right;" class="mr-2">
+      	{% if comment.author == current_user %}
+      		<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" onclick='setCommentID({{ comment.id }});' data-target="#deleteCommentModal">delete</button>
+      	{% endif %}
+      	</div>
+    </div>
+    <p class="article-content">{{ comment.content }}</p>
+  </div>
+</article>
+{% endfor %}
+<center>
+{% for page_num in comments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+	{% if comments.page == page_num %}
+	<a class="btn btn-info mb-4" href="{{ url_for('posts.post', post_id=post.id, page=page_num) }}">{{ page_num }}</a>
+	{% else %}
+	<a class="btn btn-outline-info mb-4" href="{{ url_for('posts.post', post_id=post.id, page=page_num) }}">{{ page_num }}</a>
+	{% endif %}
+{% else %}
+	...
+{% endif %}
+{% endfor %}
+</center>
+	<!-- Delete Post Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="deleteModalLabel">Are you sure?</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        All comments made on it will also be deleted.<br>This action is permanent and cannot be undone.
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	        <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+	        	<input type="submit" class="btn btn-danger" value="Delete Post">
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+		<!-- Delete Comment Modal -->
+	<div class="modal fade" id="deleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="deleteCommentModalLabel">Are you sure you want to delete this comment?</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        This action is permanent and cannot be undone.
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	        <form id="deleteCommentForm" action="/" method="POST">
+	        	<input type="submit" class="btn btn-danger" value="Delete Comment">
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+{% endblock content %}

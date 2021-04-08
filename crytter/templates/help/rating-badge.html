@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<div class="content-section">
+	<center><h2 class="article-title blue">What is a Rating Badge?</h2></center>
+	<hr>
+	<p>A rating badge is a universal signifier of a user's reputability, present anywhere their username is.</p>
+	{% if current_user.is_authenticated %}<p><i>Your rating badge looks like this: </i>{{ current_user.rateBar|safe }}</p>{% endif %}
+	<p>As your reputability changes (every 20 points or so) your rating badge will also change.</p>
+	<p>Because rating badges are visible everywhere, it is important to maintain a positive reputability score.</p>
+	
+	</div>
+{% endblock content %}

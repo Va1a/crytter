@@ -1,0 +1,118 @@
+{% extends 'layout.html' %}
+{% block content %}
+<script type="text/javascript">
+function getSearch() {return document.getElementById('searchBox').value;}
+</script>
+	<div class="content-section">
+		<form method='POST' action=''>
+		{{ form.hidden_tag() }}
+		<fieldset class='form-group'>
+			<legend class='border-bottom mb-4'>{{ legend }}</legend>
+			<div class='form-group'>
+			{{ form.wanted.label(class='form-control-label') }}				
+				{% if form.wanted.errors %}
+					{{ form.wanted(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.wanted.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.wanted(id='searchBox', class='form-control form-control-lg', maxlength='128') }}
+				{% endif %}
+			</div>
+			<div class='form-group'>
+			{{ form.giving.label(class='form-control-label') }}				
+				{% if form.giving.errors %}
+					{{ form.giving(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.giving.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.giving(id='searchBox', class='form-control form-control-lg', maxlength='128') }}
+				{% endif %}
+			</div>
+			<div class='form-group'>
+			{{ form.sortby.label(class='form-control-label') }}				
+				{% if form.sortby.errors %}
+					{{ form.sortby(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.sortby.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.sortby(id='searchBox', class='form-control form-control-lg', maxlength='128') }}
+				{% endif %}
+			</div>			
+		</fieldset>
+		<div class='form-group'>
+			<input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="Search Offers">
+		</div>
+	</form>
+</div>
+{% if posts and posts.items %}
+	{% for post in posts.items %}
+<article class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
+<div class='col-'>
+<img class='rounded-circle article-img ml-1' src='{{ url_for("static", filename="profile_pics/" + post.author.image_file) }}'>
+<div class='row-'>
+{{ post.author.rateBar|safe }}
+</div>
+</div>
+  <div class="media-body">
+    <div class="article-metadata">
+    <a class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}">
+		{{ post.author.username }}
+	</a>
+    <small class="text-muted">{% if post.sticky %}<span class="fa fa-thumb-tack blue" title="Pinned Offer (Advertisement)"></span> {% endif %}{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
+      <div style="float:right;" class="mr-2">
+      	<a type="button" class="btn btn-secondary btn-xs" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
+      </div>
+    </div>
+    <h2 class="article-title">{{ post.title }}</h2>
+    <p class="article-description">
+    	{% if post.author == current_user %}
+    	As the <b>offeror</b>, you will get
+    	<samp class="get">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountGiving }} {{ post.giving }}</samp>
+    	 to the <b>offeree</b>.
+    	{% else %}
+    	As the <b>offeree</b>, you will get
+    	<samp class="get"> {{ post.amountGiving }} {{ post.giving }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	 to the <b>offeror</b>.
+    	{% endif %}
+    </p>
+    <p class="article-content"><i>{% if post.content|length > 200 %}{{ post.content[:197] }} </i><a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-secondary btn-xs"><b>...</b></a>{% else %}{{ post.content }}</i>{% endif %}</p>
+  </div>
+</article>
+	{% endfor %}
+	<center>
+	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+	{% if page_num %}
+		{% if posts.page == page_num %}
+		<a class="btn btn-info mb-4" href="{{ url_for('main.search', page=page_num, view=view, query=query) }}">{{ page_num }}</a>
+		{% else %}
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('main.search', page=page_num, view=view, query=query) }}">{{ page_num }}</a>
+		{% endif %}
+	{% else %}
+		...
+	{% endif %}
+	{% endfor %}
+	</center>
+{% elif search %}
+	<article class="content-section">
+		<center>
+			<i>No offer results for the given query... <a href="{{ url_for('posts.new_post') }}" class="TS">create one?</a></i>
+		</center>
+	</article>
+{% endif %}
+
+
+
+{% endblock content %}

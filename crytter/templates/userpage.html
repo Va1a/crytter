@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if user.rating < 0 %}
+<div class="content-section">
+	<h2 class="article-title red">Warning!</h2>
+	This user's reputability (rating) is negative. It is advised you are extra cautious when dealing with this user.
+</div>
+{% endif %}
+	<div class="content-section">
+	  <div class="media">
+	    <img class="rounded-circle account-img" src='{{ url_for("static", filename="profile_pics/" + user.image_file) }}'>
+	    <div class="media-body">
+	      {% if current_user.is_authenticated and current_user == user %}
+	      <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
+	      {% endif %}
+	      <h2 class="account-heading">{{ user.username }} {{ user.rateBar|safe }}
+	      	{% for badge in user.badges[:3] %}
+				<span title="{{ badge.name }}" class="{{ badge.html }}"></span>
+	      	{% endfor %}
+	      </h2>
+	      <p class="account-metadata text-secondary"><b>{{ posts.total }}</b> {% if posts.total == 1 %} post {% else %} posts {% endif %} | <b>{{user.rating}}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
+	      </p>
+	      <p class="text-secondary"><i>{{ user.biography }}</i></p>
+	    </div>
+	  </div>
+	  <button class='btn btn-secondary btn-sm ml-2' onclick="location.href='{{ url_for('users.ratings', username=user.username) }}'">ratings ({{user.ratingsByOthers|length}})</button>
+	 </div>
+	{% if posts and posts.items %}
+	{% for post in posts.items %}
+	<article class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
+	<div class="media-body">
+    <div class="article-metadata">
+    <small class="text-muted">{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
+      <div style="float:right;" class="mr-2">
+      	<a type="button" class="btn btn-secondary btn-xs" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
+      </div>
+    </div>
+    <h2 class="article-title">{{ post.title }}</h2>
+    <p class="article-description">
+    	{% if post.author == current_user %}
+    	As the <b>offeror</b>, you will get
+    	<samp class="get">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountGiving }} {{ post.giving }}</samp>
+    	 to the <b>offeree</b>.
+    	{% else %}
+    	As the <b>offeree</b>, you will get
+    	<samp class="get">{{ post.amountGiving }} {{ post.giving }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	 to the <b>offeror</b>.
+    	{% endif %}
+    </p>
+    <p class="article-content"><i>{% if post.content|length > 200 %}{{ post.content[:197] }} </i><a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-secondary btn-xs"><b>...</b></a>{% else %}{{ post.content }}</i>{% endif %}</p>
+  	</div>
+	</article>
+	{% endfor %}
+	<center>
+	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+	{% if page_num %}
+		{% if posts.page == page_num %}
+		<a class="btn btn-info mb-4" href="{{ url_for('users.userpage', username=user.username, page=page_num) }}">{{ page_num }}</a>
+		{% else %}
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.userpage', username=user.username, page=page_num) }}">{{ page_num }}</a>
+		{% endif %}
+	{% else %}
+		...
+	{% endif %}
+	{% endfor %}
+	</center>
+	{% else %}
+	<article class="media content-section">
+		<i>{{user.username}} has not posted anything.</i>
+	</article>
+	{% endif %}
+
+{% endblock content %}

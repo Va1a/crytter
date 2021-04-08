@@ -1,0 +1,148 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if user.rating < 0 %}
+<div class="content-section">
+	<h2 class="article-title red">Warning!</h2>
+	This user's reputability (rating) is negative. It is advised you are extra cautious when dealing with this user.
+</div>
+{% endif %}
+	<div class="content-section">
+	  <div class="media">
+	    <img class="rounded-circle account-img" src='{{ url_for("static", filename="profile_pics/" + user.image_file) }}' alt="{{user.username}}'s profile picture">
+	    <div class="media-body">
+	      {% if current_user.is_authenticated and current_user == user %}
+	      <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
+	      {% endif %}
+	      <h2 class="account-heading">{{ user.username }} {{ user.rateBar|safe }}
+	      	{% for badge in user.badges[:3] %}
+				<span title="{{ badge.name }}" class="{{ badge.html }}"></span>
+	      	{% endfor %}
+	      </h2>
+	      	<p class="account-metadata text-secondary"><b>{{ user.posts|length }}</b> {% if user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{user.rating}}</b> reputability  | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
+	      </p>
+	      <p class="text-secondary"><i>{{ user.biography }}</i></p>
+	    </div>
+	  </div>
+	  <button class='btn btn-secondary btn-sm ml-3' onclick="location.href='{{ url_for('users.userpage', username=user.username) }}'">posts ({{user.posts|length}})</button>
+	 </div>
+	<div class="content-section">
+	<button class='btn btn-success btn-sm' data-toggle="modal" data-target="#userRatingModal">{% if oldReview %}edit{% else %}add{% endif %} rating</button>
+	<button style="float: right;" class='btn btn-danger btn-sm'>ratings given</button>
+	</div>
+	{% if ratings.items %}
+	{% for rate in ratings.items %}
+	<article class="media content-section">
+		<div class='col-'>
+			<img class='rounded-circle article-img' src='{{ url_for("static", filename="profile_pics/" + rate.rater.image_file) }}'>
+			<div class='row-'>
+				{{ rate.rater.rateBar|safe }}
+			</div>
+		</div>
+		<div class="media-body">
+	    <div class="article-metadata">
+	      <a class="mr-2" href="{{ url_for('users.userpage', username=rate.rater.username) }}">{{ rate.rater.username }}</a>
+	      <small class="text-muted">{{ rate.date_rated.strftime('%B %d, %Y - %I:%M %p') }}</small>
+	      	<div style="float:right;" class="mr-2">
+	      	</div>
+	    </div>
+	    <p class="article-description">
+	    	<span class="rating-impact">{% if rate.impact > 0 %}<span class="fa fa-plus-circle green"></span>{% elif rate.impact < 0 %}<span class="fa fa-minus-circle red"></span>{% endif %} {{ rate.impact|abs }}</span> <i>{{ rate.content }}</i>
+	    </p>
+	    <p class="article-content"></p>
+	  </div>
+	</article>
+	{% endfor %}
+	<center>
+	{% for page_num in ratings.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+	{% if page_num %}
+		{% if ratings.page == page_num %}
+		<a class="btn btn-info mb-4" href="{{ url_for('users.userpage', username=user.username, page=page_num) }}">{{ page_num }}</a>
+		{% else %}
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.userpage', username=user.username, page=page_num) }}">{{ page_num }}</a>
+		{% endif %}
+	{% else %}
+		...
+	{% endif %}
+	{% endfor %}
+	</center>
+{% else %}
+	<article class="media content-section">
+		<i>{{user.username}} has not been rated yet.</i>
+	</article>
+{% endif %}
+
+
+<div class="modal fade" id="userRatingModal" tabindex="-1" role="dialog" aria-labelledby="userRatingModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="userRatingModalLabel">{% if oldReview %}Update your rating for {{ user.username }}{% else %}Leave {{ user.username }} a rating{% endif %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% if current_user.is_authenticated and current_user != user %}
+      <form action='' method='POST'>
+	    <div class="modal-body">
+		{{ form.hidden_tag() }}
+		<fieldset class='form-group'>
+			<div class='form-group'>
+				{{ form.rating.label(class='form-control-label') }}
+				
+				{% if form.rating.errors %}
+					{{ form.rating(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.rating.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.rating(class='form-control form-control-lg') }}
+				{% endif %}
+			</div>
+			<div class='form-group'>
+				{{ form.experience.label(class='form-control-label') }}
+				
+				{% if form.experience.errors %}
+					{{ form.experience(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in form.experience.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.experience(class='form-control form-control-lg', maxlength='256') }}
+				{% endif %}	
+			</div>
+		</fieldset>
+		  <a class="pink-hi" href="{{ url_for('main.help', topic='rating-impact')}}"><small class="text-muted" style="font-style: italic;">How does my rating impact this user?</small></a>
+		</div>
+	      <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	<div class='form-group'>
+		<input class="btn btn-success" id="submit" name="submit" type="submit" value="{% if oldReview %}Update{% else %}Submit{% endif %} Rating">
+	</div>
+   </div>
+</form>
+		{% elif not current_user.is_authenticated %}
+		<div class="modal-body">
+       	You must be logged in to rate another user.
+       </div>
+	    <div class="modal-footer">
+	    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	    <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="location.href='{{ url_for('users.login', next=url_for('users.ratings', username=user.username)) }}'">Log In</button>
+	   </div>
+	   {% else %}
+		<div class="modal-body">
+       	You cannot leave a rating for yourself.
+       </div>
+	    <div class="modal-footer">
+	    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+	   </div>
+        {% endif %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
