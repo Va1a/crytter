@@ -7,7 +7,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: #e1efe4;
-  font-family: Consolas;
+  font-family: menlo, consolas, monospace;
 
 }
 
@@ -42,7 +42,7 @@ a:hover:not(.btn):not(.nav-link):not(.navbar-brand) {
 
 legend {
   color: #a6e22e;
-  font-family: Consolas;
+  font-family: menlo, consolas, monospace;
 }
 
 textarea, select, input[type=text] {
@@ -60,6 +60,11 @@ samp {
   padding-right: 0.25em;
   speak: digits;
   word-break: break-word;
+}
+
+samp.dark-bg {
+  background-color: #3e3d32;
+  border: 2px solid #3e3d32;
 }
 
 .list-group-item-light {
@@ -80,14 +85,14 @@ samp {
 }
 
 .btn {
-  font-family: Consolas;
+  font-family: menlo, consolas, monospace;
 }
 
 .close {
   color: #ffffff!important;
 }
 .modal-content {
-  font-family: Consolas;
+  font-family: menlo, consolas, monospace;
   background-color: #3e3d32!important;
 }
 
@@ -102,7 +107,7 @@ samp {
 
 .bg-steel {
   background-color: #636255;
-  font-family: Consolas;
+  font-family: menlo, consolas, monospace;
 }
 
 .mr-2{
@@ -250,7 +255,7 @@ a.pink-hi:hover {
 }
 
 .article-metadata {
-  font-family: Consolas;
+  font-family: menlo, consolas, monospace;
   padding-bottom: 1px;
   margin-bottom: 4px;
   border-bottom: 1px solid #636255
@@ -276,7 +281,7 @@ a.pink-hi:hover {
 
 .account-metadata {
  color: #e6db74!important;
- font-family: Consolas;
+ font-family: menlo, consolas, monospace;
 }
 
 .account-heading {

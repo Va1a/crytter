@@ -23,6 +23,8 @@
 if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
+if(getCookie('currencyDropdown') == ""){setCookie('currencyDropdown', false, 3650);}
+var currencyDropped = getCookie('currencyDropdown');
 </script>
 <body>
 	<header class="site-header">
@@ -91,22 +93,23 @@ if ( window.history.replaceState ) {
 	      </div>
 		      <div class="row-md-4">
 			      <div class="content-section">
-			        <p class='text-muted'>
 			          <ul class="list-group">
-			          	<li class="list-group-item list-group-item-light">Euro = <span id="EUR-price"></span></li>
-			          	<li class="list-group-item list-group-item-light">Pound Sterling = <span id="GBP-price"></span></li>
-			          	<li class="list-group-item list-group-item-light">Swiss Franc = <span id="CHF-price"></span></li>
-			            <li class="list-group-item list-group-item-light">Bitcoin = <span id="BTC-price"></span></li>
-			            <li class="list-group-item list-group-item-light">Ether = <span id="ETH-price"></span></li>
-			            <li class="list-group-item list-group-item-light">XRP = <span id="XRP-price"></span></li>
-			          	<li class="list-group-item list-group-item-light">Binance Coin = <span id="BNB-price"></span></li>
-			          	<li class="list-group-item list-group-item-light">Cardano = <span id="ADA-price"></span></li>
-			          	<li class="list-group-item list-group-item-light">Litecoin = <span id="LTC-price"></span></li>
-			          	<li class="list-group-item list-group-item-light">Bitcoin Cash = <span id="BCH-price"></span></li>
-			            <li class="list-group-item list-group-item-light">Monero = <span id="XMR-price"></span></li>
-			            <li class="list-group-item list-group-item-light">Bread = <span id="BRD-price"></span></li>
+			          	<li class="list-group-item list-group-item-light"><a data-toggle="collapse" href="#currencyList" role="button" aria-expanded="false" aria-controls="currencyList" onclick="e = document.getElementById('down-arrow'); if(getCookie('currencyDropdown') == 'true'){e.classList.remove('fa-angle-double-up'); e.classList.add('fa-angle-double-down'); setCookie('currencyDropdown', false, 3650);}else{e.classList.remove('fa-angle-double-down'); e.classList.add('fa-angle-double-up'); setCookie('currencyDropdown', true, 3650);}"><span id="down-arrow" class="fa fa-angle-double-down"></span> Exchange Rates</a></li>
+			          	<div class="collapse" id="currencyList">
+			          	<li class="list-group-item list-group-item-light">Euro = <samp class="dark-bg" id="EUR-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Pound Sterling = <samp class="dark-bg" id="GBP-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Swiss Franc = <samp class="dark-bg" id="CHF-price"></samp></li>
+			            <li class="list-group-item list-group-item-light">Bitcoin = <samp class="dark-bg" id="BTC-price"></samp></li>
+			            <li class="list-group-item list-group-item-light">Ether = <samp class="dark-bg" id="ETH-price"></samp></li>
+			            <li class="list-group-item list-group-item-light">XRP = <samp class="dark-bg" id="XRP-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Binance Coin = <samp class="dark-bg" id="BNB-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Cardano = <samp class="dark-bg" id="ADA-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Litecoin = <samp class="dark-bg" id="LTC-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Bitcoin Cash = <samp class="dark-bg" id="BCH-price"></samp></li>
+			            <li class="list-group-item list-group-item-light">Monero = <samp class="dark-bg" id="XMR-price"></samp></li>
+			            <li class="list-group-item list-group-item-light">Bread = <samp class="dark-bg" id="BRD-price"></samp></li>
+			        	</div>
 			          </ul>
-			        </p>
 					<script type="text/javascript">
 						(function updatePrices(){
 							getPrice('BTC', document.getElementById('BTC-price'))
@@ -124,11 +127,12 @@ if ( window.history.replaceState ) {
 							setTimeout(updatePrices, 30000);
 						})();
 					</script>
-					<small style="color: #585d61; display: block;"><span class="fa fa-spinner fa-pulse"></span> Live Prices provided by Coinbase</small>
+					<small style="color: #585d61; display: block;"><span class="fa fa-spinner fa-pulse"></span> Live rates provided by Coinbase</small>
 		     	 </div>
 		    </div>
 	    </div>
 	  </div>
+	<script type="text/javascript">if(currencyDropped == 'true'){document.getElementById('currencyList').classList.add('show'); e = document.getElementById('down-arrow'); e.classList.remove('fa-angle-double-down'); e.classList.add('fa-angle-double-up')}</script>
 	</main>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
