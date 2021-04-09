@@ -51,6 +51,11 @@ document.getElementById('deleteCommentForm').action = '/comment/'+id+'/delete?re
   </div>
 </article>
 
+<div class="content-section">
+	Based on current market prices, <b>{% if post.author != current_user %}you{% else %}the offeree{% endif %}</b> will be receiving <samp class="{% if current_user == post.author %}give{% else %}get{% endif %}" id="deal-value">loading...</samp> worth of {{ post.giving }}.
+	<script type="text/javascript">async function displayValue(){ document.getElementById('deal-value').textContent = await dealValue("{{ post.giving }}", "{{ post.wanted }}")*{{ post.amountGiving }}+" {{ post.wanted }}" } displayValue()</script>
+</div>
+
 <div class='content-section'>
 	{% if current_user.is_authenticated %}
 	<form method='POST' action=''>

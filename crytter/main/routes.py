@@ -8,6 +8,11 @@ import json
 main = Blueprint('main', __name__)
 
 # HOME PAGE
+@main.route('/')
+def index():
+	return render_template('index.html')
+
+# POSTS PAGE
 @main.route('/posts')
 def home():
 	page = request.args.get('page', 1, type=int)

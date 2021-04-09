@@ -1,6 +1,6 @@
 from wtforms import ValidationError
 
-cryptoList = ['USD', 'EUR', 'GBP', 'CHF', 'BTC', 'ETH', 'BCH', 'XRP', 'XMR', 'BRD', 'DOGE']
+cryptoList = ['USD', 'EUR', 'GBP', 'CHF', 'BTC', 'ETH', 'BCH', 'XRP', 'XMR', 'BRD', 'DOGE', 'ADA', 'BNB', 'LTC']
 
 class NotEqualTo(object):
     def __init__(self, fieldname, message=None):
