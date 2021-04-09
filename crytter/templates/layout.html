@@ -108,26 +108,27 @@ var currencyDropped = getCookie('currencyDropdown');
 			          	<li class="list-group-item list-group-item-light">Bitcoin Cash = <samp class="dark-bg" id="BCH-price"></samp></li>
 			            <li class="list-group-item list-group-item-light">Monero = <samp class="dark-bg" id="XMR-price"></samp></li>
 			            <li class="list-group-item list-group-item-light">Bread = <samp class="dark-bg" id="BRD-price"></samp></li>
+			        	<small style="color: #585d61; display: block;"><span class="fa fa-spinner fa-pulse"></span> Live rates provided by Coinbase</small>
 			        	</div>
 			          </ul>
 					<script type="text/javascript">
 						(function updatePrices(){
-							getPrice('BTC', document.getElementById('BTC-price'))
-							getPrice('ETH', document.getElementById('ETH-price'))
-							getPrice('XRP', document.getElementById('XRP-price'))
-							getPrice('XMR', document.getElementById('XMR-price'))
-							getPrice('EUR', document.getElementById('EUR-price'))
-							getPrice('GBP', document.getElementById('GBP-price'))
-							getPrice('CHF', document.getElementById('CHF-price'))
-							getPrice('BNB', document.getElementById('BNB-price'))
-							getPrice('ADA', document.getElementById('ADA-price'))
-							getPrice('LTC', document.getElementById('LTC-price'))
-							getPrice('BCH', document.getElementById('BCH-price'))
-							getPrice('BRD', document.getElementById('BRD-price'))
+							getPrice('BTC', document.getElementById('BTC-price'));
+							getPrice('ETH', document.getElementById('ETH-price'));
+							getPrice('XRP', document.getElementById('XRP-price'));
+							getPrice('XMR', document.getElementById('XMR-price'));
+							getPrice('EUR', document.getElementById('EUR-price'));
+							getPrice('GBP', document.getElementById('GBP-price'));
+							getPrice('CHF', document.getElementById('CHF-price'));
+							getPrice('BNB', document.getElementById('BNB-price'));
+							getPrice('ADA', document.getElementById('ADA-price'));
+							getPrice('LTC', document.getElementById('LTC-price'));
+							getPrice('BCH', document.getElementById('BCH-price'));
+							getPrice('BRD', document.getElementById('BRD-price'));
 							setTimeout(updatePrices, 30000);
 						})();
 					</script>
-					<small style="color: #585d61; display: block;"><span class="fa fa-spinner fa-pulse"></span> Live rates provided by Coinbase</small>
+					
 		     	 </div>
 		    </div>
 	    </div>

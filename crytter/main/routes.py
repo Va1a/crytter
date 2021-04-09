@@ -2,6 +2,7 @@ from flask import render_template, send_from_directory, request, Blueprint, abor
 from crytter.models import User, Post, Badge
 from flask_login import current_user
 from crytter.main.forms import SearchForm, AssignBadgeForm, RevokeBadgeForm, PermissionsForm, ChangeEmailForm, StickyPostForm
+from crytter.main.utils import getSearchResults
 from crytter import db
 import json
 
@@ -37,29 +38,28 @@ def help(topic):
 # SEARCH PAGE
 @main.route('/search', methods=['GET', 'POST'])
 def search():
-	page = request.args.get('page', 1, type=int)
+	page = request.args.get('p', 1, type=int)
 	form = SearchForm()
 	if form.validate_on_submit():
 		current_user.last_search = json.dumps({'wants': form.wanted.data, 'has': form.giving.data, 'sortby': form.sortby.data})
 		db.session.commit()
 
-		if form.sortby.data == 'Newest':
-			result = Post.query.filter(Post.giving == form.wanted.data, Post.wanted == form.giving.data).order_by(Post.sticky.desc(), Post.date_posted.desc()).paginate(page=page, per_page=5)
-		elif form.sortby.data == 'Oldest':
-			result = Post.query.filter(Post.giving == form.wanted.data, Post.wanted == form.giving.data).order_by(Post.sticky.desc(), Post.date_posted.asc()).paginate(page=page, per_page=5)
-		elif form.sortby.data == 'Highest Credibility':
-			result = Post.query.filter(Post.giving == form.wanted.data, Post.wanted == form.giving.data).join(User).order_by(Post.sticky.desc(), User.rating.desc()).paginate(page=page, per_page=5)
-		elif form.sortby.data == 'Highest Quantity':
-			result = Post.query.filter(Post.giving == form.wanted.data, Post.wanted == form.giving.data).order_by(Post.sticky.desc(), Post.amountGiving.desc()).paginate(page=page, per_page=5)
-		elif form.sortby.data == 'Lowest Quantity':
-			result = Post.query.filter(Post.giving == form.wanted.data, Post.wanted == form.giving.data).order_by(Post.sticky.desc(), Post.amountGiving.asc()).paginate(page=page, per_page=5)
-		return render_template('search.html', title='Search Results', form=form, legend='Search', search=True, posts=result)
+		result = getSearchResults(form, page)
+		return redirect(url_for('main.search', w=form.wanted.data, g=form.giving.data, s=form.sortby.data)), 302
 	if request.method == 'GET' and current_user.is_authenticated and current_user.last_search:
 		lastSearch = json.loads(current_user.last_search)
 		form.wanted.data = lastSearch['wants']
 		form.giving.data = lastSearch['has']
 		form.sortby.data = lastSearch['sortby']
-	return render_template('search.html', title='search', form=form, legend='Search', search=False)
+	if ('w' in request.args) and ('g' in request.args) and ('s' in request.args):
+		form.wanted.data = request.args.get('w', 'BTC', type=str)
+		form.giving.data = request.args.get('g', 'USD', type=str)
+		form.sortby.data = request.args.get('s', 'Newest', type=str)
+		result = getSearchResults(form, page)
+		return render_template('search.html', title='Search Results', form=form, legend='Search', search=True, posts=result)
+
+
+	return render_template('search.html', title='Search', form=form, legend='Search', search=False)
 
 # TODO: blank page
 @main.route('/advertise')
