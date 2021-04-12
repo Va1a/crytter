@@ -69,7 +69,7 @@ function getSearch() {return document.getElementById('searchBox').value;}
 	</a>
     <small class="text-muted">{% if post.sticky %}<span class="fa fa-thumb-tack blue" title="Pinned Offer (Advertisement)"></span> {% endif %}{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
       <div style="float:right;" class="mr-2">
-      	<a type="button" class="btn btn-secondary btn-xs" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
+      	<a class="btn btn-secondary btn-xs" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
       </div>
     </div>
     <h2 class="article-title">{{ post.title }}</h2>

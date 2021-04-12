@@ -81,6 +81,19 @@ setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\
 				{{ form.content(class='form-control form-control-lg', maxlength='2000') }}
 				{% endif %}	
 			</div>
+			<div class="form-group">
+				{{ form.recaptcha.label(class='form-control-label') }}
+				{% if form.recaptcha.errors %}
+					{{ form.recaptcha }}
+					<div style='font-size: 80%; color: #dc3545;'>
+						{% for error in form.recaptcha.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ form.recaptcha }}
+				{% endif %}
+			</div>
 		</fieldset>
 		<div class='form-group'>
 			<input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="{{ submit }}">
