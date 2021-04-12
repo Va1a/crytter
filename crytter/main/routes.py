@@ -30,6 +30,11 @@ def about():
 def robots():
 	return send_from_directory('static', 'robots.txt')
 
+# FAVICON
+@main.route('/favicon.ico')
+def favicon():
+	return send_from_directory('static', 'favicon.ico')
+
 # HELP DOCS
 @main.route('/help/<string:topic>')
 def help(topic):
