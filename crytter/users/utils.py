@@ -1,24 +1,8 @@
-import os, re
+import re
 import secrets
-from PIL import Image
 from flask import url_for, current_app
 from flask_mail import Message
 from crytter import mail
-
-# FUNCTION FOR SAVING PROFILE PICTURES
-def savepic(form_pic, userid, oldfile):
-	randomHex = secrets.token_hex(8)
-	_, f_ext = os.path.splitext(form_pic.filename)
-	picture_fn = randomHex + '-' + str(userid) + f_ext
-	picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_fn)
-	output_size = (125, 125)
-	i = Image.open(form_pic)
-	i.thumbnail(output_size)
-	i.save(picture_path)
-	if oldfile != 'default.jpeg':
-		rmpath = os.path.join(current_app.root_path, 'static/profile_pics', oldfile)
-		os.remove(rmpath)
-	return picture_fn
 
 # FUNCTION TO SEND RESET PASSWORD EMAIL
 def send_reset_email(user):

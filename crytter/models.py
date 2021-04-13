@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
 	rateBar = db.Column(db.String, nullable=False, default='<a class="mr-1 btn btn-secondary btn-xs" >New User</a>')
 	date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	biography = db.Column(db.Text, nullable=False, default='')
-	image_file = db.Column(db.String, nullable=False, default='default.jpeg')
+	image_file = db.Column(db.String, nullable=False, default='default.jpg')
 	password = db.Column(db.String(60), nullable=False)
 	permission_level = db.Column(db.Integer, nullable=False, default=0)
 	last_search = db.Column(db.String(128), nullable=False, default='')

@@ -54,7 +54,16 @@ class UpdateProfileForm(FlaskForm):
 		])
 	biography = TextAreaField('Biography', validators=[Length(min=0, max=75)])
 
-	picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+	picture = SelectField('Avatar Color', choices=[
+		('default', 'Gray'),
+		('default-aqua', 'Aqua'), 
+		('default-blue', 'Blue'),
+		('default-green', 'Green'),
+		('default-orange', 'Orange'),
+		('default-pink', 'Pink'),
+		('default-red', 'Red')
+		],
+		 validators=[])
 
 	submit = SubmitField('Update Profile')
 
@@ -85,12 +94,14 @@ class RequestResetForm(FlaskForm):
 	email = StringField('Email', validators=[
 		DataRequired(), Email()])
 
+	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
+
 	def validate_email(self, email):
 		user = User.query.filter_by(email=email.data).first()
 		if user is None:
 			raise ValidationError('No user exists with this email. Consider creating an account.')
 
-	submit = SubmitField('request password reset')
+	submit = SubmitField('Request password reset')
 
 class ResetPasswordForm(FlaskForm):
 	newpassword = PasswordField('New Password', validators=[
@@ -107,4 +118,6 @@ class RateUserForm(FlaskForm):
 		],
 		 validators=[DataRequired()])
 	experience = TextAreaField('Describe your experience in dealing with this user:', validators=[DataRequired(), Length(max=256, message='Too long, 256 character limit')])
+	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
+
 	submit = SubmitField('Submit Rating')

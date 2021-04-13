@@ -10,7 +10,7 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
-login_manager.login_message = 'please login to access this page...'
+login_manager.login_message = 'Login to access this page...'
 login_manager.login_message_category = 'warning'
 
 mail = Mail()

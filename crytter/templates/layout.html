@@ -96,18 +96,18 @@ var currencyDropped = getCookie('currencyDropdown');
 			          <ul class="list-group">
 			          	<li class="list-group-item list-group-item-light"><a data-toggle="collapse" href="#currencyList" role="button" aria-expanded="false" aria-controls="currencyList" onclick="e = document.getElementById('down-arrow'); if(getCookie('currencyDropdown') == 'true'){e.classList.remove('fa-angle-double-up'); e.classList.add('fa-angle-double-down'); setCookie('currencyDropdown', false, 3650);}else{e.classList.remove('fa-angle-double-down'); e.classList.add('fa-angle-double-up'); setCookie('currencyDropdown', true, 3650);}"><span id="down-arrow" class="fa fa-angle-double-down"></span> Exchange Rates</a></li>
 			          	<div class="collapse" id="currencyList">
-			          	<li class="list-group-item list-group-item-light">Euro = <samp class="dark-bg" id="EUR-price"></samp></li>
-			          	<li class="list-group-item list-group-item-light">Pound Sterling = <samp class="dark-bg" id="GBP-price"></samp></li>
-			          	<li class="list-group-item list-group-item-light">Swiss Franc = <samp class="dark-bg" id="CHF-price"></samp></li>
-			            <li class="list-group-item list-group-item-light">Bitcoin = <samp class="dark-bg" id="BTC-price"></samp></li>
-			            <li class="list-group-item list-group-item-light">Ether = <samp class="dark-bg" id="ETH-price"></samp></li>
-			            <li class="list-group-item list-group-item-light">XRP = <samp class="dark-bg" id="XRP-price"></samp></li>
-			          	<li class="list-group-item list-group-item-light">Binance Coin = <samp class="dark-bg" id="BNB-price"></samp></li>
-			          	<li class="list-group-item list-group-item-light">Cardano = <samp class="dark-bg" id="ADA-price"></samp></li>
-			          	<li class="list-group-item list-group-item-light">Litecoin = <samp class="dark-bg" id="LTC-price"></samp></li>
-			          	<li class="list-group-item list-group-item-light">Bitcoin Cash = <samp class="dark-bg" id="BCH-price"></samp></li>
-			            <li class="list-group-item list-group-item-light">Monero = <samp class="dark-bg" id="XMR-price"></samp></li>
-			            <li class="list-group-item list-group-item-light">Bread = <samp class="dark-bg" id="BRD-price"></samp></li>
+			          	<li class="list-group-item list-group-item-light">Euro = <samp class="dark-bg" id="EUR-price">---</samp></li>
+			          	<li class="list-group-item list-group-item-light">Pound Sterling = <samp class="dark-bg" id="GBP-price">---</samp></li>
+			          	<li class="list-group-item list-group-item-light">Swiss Franc = <samp class="dark-bg" id="CHF-price">---</samp></li>
+			            <li class="list-group-item list-group-item-light">Bitcoin = <samp class="dark-bg" id="BTC-price">---</samp></li>
+			            <li class="list-group-item list-group-item-light">Ether = <samp class="dark-bg" id="ETH-price">---</samp></li>
+			            <li class="list-group-item list-group-item-light">XRP = <samp class="dark-bg" id="XRP-price">---</samp></li>
+			          	<li class="list-group-item list-group-item-light">Binance Coin = <samp class="dark-bg" id="BNB-price">---</samp></li>
+			          	<li class="list-group-item list-group-item-light">Cardano = <samp class="dark-bg" id="ADA-price">---</samp></li>
+			          	<li class="list-group-item list-group-item-light">Litecoin = <samp class="dark-bg" id="LTC-price">---</samp></li>
+			          	<li class="list-group-item list-group-item-light">Bitcoin Cash = <samp class="dark-bg" id="BCH-price">---</samp></li>
+			            <li class="list-group-item list-group-item-light">Monero = <samp class="dark-bg" id="XMR-price">---</samp></li>
+			            <li class="list-group-item list-group-item-light">Bread = <samp class="dark-bg" id="BRD-price">---</samp></li>
 			        	<small style="color: #585d61; display: block;"><span class="fa fa-spinner fa-pulse"></span> Live rates provided by Coinbase</small>
 			        	</div>
 			          </ul>

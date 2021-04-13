@@ -114,6 +114,19 @@
 				{{ form.experience(class='form-control form-control-lg', maxlength='256') }}
 				{% endif %}	
 			</div>
+			<div class="form-group">
+					{{ form.recaptcha.label(class='form-control-label') }}
+					{% if form.recaptcha.errors %}
+						{{ form.recaptcha }}
+						<div style='font-size: 80%; color: #dc3545;'>
+							{% for error in form.recaptcha.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+					{{ form.recaptcha }}
+					{% endif %}
+				</div>
 		</fieldset>
 		  <a class="pink-hi" href="{{ url_for('main.help', topic='rating-impact')}}"><small class="text-muted" style="font-style: italic;">How does my rating impact this user?</small></a>
 		  {% if current_user.rating < 0 %}

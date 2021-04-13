@@ -22,7 +22,7 @@
 	</a>
     <small class="text-muted">{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
       <div style="float:right;" class="mr-2">
-      	<a class="btn btn-secondary btn-xs" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
+      	<a class="btn btn-secondary btn-xs" id="commentsButton" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
       </div>
     </div>
     <h2 class="article-title">{{ post.title }}</h2>

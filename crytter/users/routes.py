@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from crytter import db, bcrypt
 from crytter.models import User, Post, Comment, Alert, Badge, Rating
 from crytter.users.forms import RegistrationForm, LoginForm, UpdateProfileForm, UpdatePasswordForm, RequestResetForm, ResetPasswordForm, RateUserForm
-from crytter.users.utils import savepic, send_reset_email, verifyPerms, rateToHTML
+from crytter.users.utils import send_reset_email, verifyPerms, rateToHTML
 
 users = Blueprint('users', __name__)
 
@@ -62,9 +62,7 @@ def userpage_redirect():
 def profile():
 	form = UpdateProfileForm()
 	if form.validate_on_submit():
-		if form.picture.data:
-			picture_file = savepic(form.picture.data, current_user.id, current_user.image_file)
-			current_user.image_file = picture_file
+		current_user.image_file = form.picture.data+'.jpg'
 		current_user.username = form.username.data
 		current_user.email = form.email.data
 		current_user.biography = form.biography.data
@@ -75,6 +73,7 @@ def profile():
 		form.username.data = current_user.username
 		form.email.data = current_user.email
 		form.biography.data = current_user.biography
+		form.picture.data = current_user.image_file[:-4]
 	imagefile = url_for('static', filename=f'profile_pics/{current_user.image_file}')
 	return render_template('profile.html', title='Profile', imagefile=imagefile, form=form)
 
@@ -124,7 +123,7 @@ def userpage(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 
-	return render_template('userpage.html', posts=posts, user=user)
+	return render_template('userpage.html', posts=posts, user=user, title=user.username)
 
 
 # USER RATINGS
@@ -162,7 +161,7 @@ def ratings(username):
 		db.session.commit()
 		flash(f'Rating {"Updated" if oldReview else "Submitted"}', 'success')
 		return redirect(url_for('users.ratings', username=user.username))
-	return render_template('ratingsreceived.html', ratings=ratings, user=user, form=form, oldReview=oldReview)
+	return render_template('ratingsreceived.html', ratings=ratings, user=user, form=form, oldReview=oldReview, title=user.username+' / ratings')
 
 
 # CHANGE PASSWORD PAGE

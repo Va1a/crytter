@@ -1,3 +1,5 @@
+$.ajaxSetup({ cache: false });
+
 function setInputFilter(textbox, inputFilter) {
   ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
     textbox.addEventListener(event, function() {
@@ -18,7 +20,7 @@ function setInputFilter(textbox, inputFilter) {
 function getPrice(ofCurr, elementToUpdate){
   url = 'https://api.coinbase.com/v2/exchange-rates?currency='+ofCurr;
   $.get(url, function(data, status){
-    elementToUpdate.textContent = '$'+Math.round( data.data.rates.USD * 1000 + Number.EPSILON ) / 1000;
+    elementToUpdate.textContent = '$'+ parseFloat(data.data.rates.USD).toFixed(2);
   });
 }
 
@@ -26,13 +28,12 @@ async function dealValue(hasC, wantsC){
   const usdOfHas = await CBrate(hasC, "USD");
   const usdOfWants = await CBrate(wantsC, "USD");
 
-  return Math.round((usdOfHas / usdOfWants) * 100 + Number.EPSILON ) / 100;
+  return (usdOfHas / usdOfWants).toFixed(5);
 }
 
 async function CBrate(ofCurr, toCurr){
   url = 'https://api.coinbase.com/v2/exchange-rates?currency='+ofCurr;
   rates = await $.get(url, function(data, status){return data.data.rates;});
-  console.log(rates.data.rates[toCurr]);
   return rates.data.rates[toCurr];
 }
 
