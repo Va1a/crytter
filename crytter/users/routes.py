@@ -81,7 +81,7 @@ def profile():
 @users.route('/alerts')
 @login_required
 def alerts():
-	page = request.args.get('page', 1, type=int)
+	page = request.args.get('p', 1, type=int)
 	alerts = Alert.query.filter_by(assoc_user=current_user).order_by(Alert.date.desc()).paginate(page=page, per_page=10)
 	for alert in alerts.items:
 		try:
@@ -98,7 +98,7 @@ def alerts():
 	db.session.commit()
 	return prerendered_template
 
-@users.route('/alerts/settings/<string:operation>', methods=['POST', 'GET'])
+@users.route('/alerts/<string:operation>', methods=['POST', 'GET'])
 @login_required
 def alert_settings(operation):
 	if operation == 'clear-all' and request.method == 'POST':
@@ -119,7 +119,7 @@ def alert_settings(operation):
 # PUBLIC PROFILE PAGE
 @users.route('/user/<string:username>')
 def userpage(username):
-	page = request.args.get('page', 1, type=int)
+	page = request.args.get('p', 1, type=int)
 	user = User.query.filter_by(username=username).first_or_404()
 	posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 
@@ -129,7 +129,7 @@ def userpage(username):
 # USER RATINGS
 @users.route('/user/<string:username>/ratings', methods=['GET', 'POST'])
 def ratings(username):
-	page = request.args.get('page', 1, type=int)
+	page = request.args.get('p', 1, type=int)
 	form = RateUserForm()
 	user = User.query.filter_by(username=username).first_or_404()
 	oldReview = (Rating.query.filter_by(rater=current_user, ratee=user).first() if current_user.is_authenticated else None)
@@ -155,13 +155,19 @@ def ratings(username):
 		alert = Alert(assoc_user=user, type='rating', from_user=current_user.id, post_id='')
 		db.session.add(newRating)
 		db.session.add(alert)
-		print(user.rating)
-		print(rateToHTML(user.rating))
 		user.rateBar = rateToHTML(user.rating)
 		db.session.commit()
 		flash(f'Rating {"Updated" if oldReview else "Submitted"}', 'success')
 		return redirect(url_for('users.ratings', username=user.username))
 	return render_template('ratingsreceived.html', ratings=ratings, user=user, form=form, oldReview=oldReview, title=user.username+' / ratings')
+
+# RATINGS GIVEN BY USER TO OTHERS
+@users.route('/user/<string:username>/ratings-given')
+def ratingsGiven(username):
+	page = request.args.get('p', 1, type=int)
+	user = User.query.filter_by(username=username).first_or_404()
+	ratings = Rating.query.filter_by(rater=user).order_by(Rating.date_rated.desc()).paginate(page=page, per_page=5)
+	return render_template('ratingsgiven.html', ratings=ratings, user=user, title=user.username+' / given ratings')
 
 
 # CHANGE PASSWORD PAGE

@@ -10,7 +10,7 @@
 </div>
 {% for alert in alerts.items %}
 <div class="content-section">
-	<h5 {% if alert.seen %} style="color: #9f9f92;" {% endif %}><a class="orange notif" href="/user/{{alert.from_username}}" {% if alert.seen %} style="color: #9f9f92;" {% endif %}><i>{{ alert.from_username }}</i></a> {% if alert.type == 'comment' %}commented on your post <a class="green notif" href="/post/{{alert.post_id}}" {% if alert.seen %} style="color: #9f9f92;" {% endif %}>"{{ alert.post_title }}"</a>{% elif alert.type == 'rating' %}rated you{% endif %} // <small {% if alert.seen %} style="color: #9f9f92;" {% endif %}>{{ alert.date.strftime('%B %d, %Y - %I:%M %p') }}</small> <span style="float: right; cursor: pointer; color: #e6db74;" onclick="window.location.href = '/alerts/settings/clear-only?alert={{ alert.id }}';" class="fa fa-trash-o"></span></h5>
+	<h5 {% if alert.seen %} style="color: #9f9f92;" {% endif %}><a class="orange notif" href="/user/{{alert.from_username}}" {% if alert.seen %} style="color: #9f9f92;" {% endif %}><i>{{ alert.from_username }}</i></a> {% if alert.type == 'comment' %}commented on your post <a class="green notif" href="/post/{{alert.post_id}}" {% if alert.seen %} style="color: #9f9f92;" {% endif %}>"{{ alert.post_title }}"</a>{% elif alert.type == 'rating' %}rated you{% endif %} // <small {% if alert.seen %} style="color: #9f9f92;" {% endif %}>{{ alert.date.strftime('%B %d, %Y - %I:%M %p') }}</small> <span style="float: right; cursor: pointer; color: #e6db74;" onclick="window.location.href = '{{ url_for('users.alert_settings', operation='clear-only', alert=alert.id) }}';" class="fa fa-trash-o"></span></h5>
 </div>
 {% endfor %}
 {% else %}
@@ -22,9 +22,9 @@
 {% for page_num in alerts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 	{% if page_num %}
 		{% if alerts.page == page_num %}
-		<a class="btn btn-info mb-4" href="{{ url_for('users.alerts', page=page_num) }}">{{ page_num }}</a>
+		<a class="btn btn-info mb-4" href="{{ url_for('users.alerts', p=page_num) }}">{{ page_num }}</a>
 		{% else %}
-		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.alerts', page=page_num) }}">{{ page_num }}</a>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.alerts', p=page_num) }}">{{ page_num }}</a>
 		{% endif %}
 	{% else %}
 		...
@@ -46,7 +46,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form action="/alerts/settings/clear-all" method="POST">
+        <form action="{{ url_for('users.alert_settings', operation='clear-all') }}" method="POST">
         	<input type="submit" class="btn btn-danger" value="Clear Alerts">
         </form>
       </div>

@@ -26,8 +26,8 @@
 	  <button class='btn btn-secondary btn-sm ml-3' onclick="location.href='{{ url_for('users.userpage', username=user.username) }}'">posts ({{user.posts|length}})</button>
 	 </div>
 	<div class="content-section">
-	<button class='btn btn-success btn-sm' data-toggle="modal" data-target="#userRatingModal">{% if oldReview %}edit{% else %}add{% endif %} rating</button>
-	<button style="float: right;" class='btn btn-danger btn-sm'>ratings given</button>
+	<button class='btn btn-{{ "outline-" if user == current_user }}success btn-sm' data-toggle="modal" data-target="#userRatingModal">{% if oldReview %}edit{% else %}add{% endif %} rating</button>
+	<button style="float: right;" class='btn btn-danger btn-sm' onclick="location.href = '{{url_for('users.ratingsGiven', username=user.username)}}'">ratings of others</button>
 	</div>
 	{% if ratings.items %}
 	{% for rate in ratings.items %}
@@ -56,9 +56,9 @@
 	{% for page_num in ratings.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 	{% if page_num %}
 		{% if ratings.page == page_num %}
-		<a class="btn btn-info mb-4" href="{{ url_for('users.userpage', username=user.username, page=page_num) }}">{{ page_num }}</a>
+		<a class="btn btn-info mb-4" href="{{ url_for('users.ratings', username=user.username, p=page_num) }}">{{ page_num }}</a>
 		{% else %}
-		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.userpage', username=user.username, page=page_num) }}">{{ page_num }}</a>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.ratings', username=user.username, p=page_num) }}">{{ page_num }}</a>
 		{% endif %}
 	{% else %}
 		...

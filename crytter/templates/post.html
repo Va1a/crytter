@@ -8,7 +8,7 @@ document.getElementById('deleteCommentForm').action = '/comment/'+id+'/delete?re
 {% if post.author.rating < 0 %}
 <div class="content-section">
 	<h2 class="article-title red">Warning!</h2>
-	This user's reputability (rating) is negative. It is advised you are extra cautious when dealing with this user.
+	The offeror's reputability (rating) is negative. It is advised you are extra cautious when dealing with them.
 </div>
 {% endif %}
 <article class="media content-section">
@@ -52,8 +52,9 @@ document.getElementById('deleteCommentForm').action = '/comment/'+id+'/delete?re
 </article>
 
 <div class="content-section">
+	<a href="{{ url_for('main.help', topic='deal-value') }}"><span class="fa fa-info-circle"></span></a>
 	Based on current market prices, <b>{% if post.author != current_user %}you{% else %}the offeree{% endif %}</b> will be receiving <samp class="{% if current_user == post.author %}give{% else %}get{% endif %}" id="deal-value">loading...</samp> worth of {{ post.giving }}.
-	<script type="text/javascript">async function displayValue(){ document.getElementById('deal-value').textContent = await dealValue("{{ post.giving }}", "{{ post.wanted }}")*{{ post.amountGiving }}+" {{ post.wanted }}" } displayValue()</script>
+	<script type="text/javascript">(async function displayValue(){ document.getElementById('deal-value').textContent = parseFloat(await dealValue("{{ post.giving }}", "{{ post.wanted }}")*{{ post.amountGiving }}).toFixed(5)+" {{ post.wanted }}";  setTimeout(displayValue, 10000);})();</script>
 </div>
 
 <div class='content-section'>

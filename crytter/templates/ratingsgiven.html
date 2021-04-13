@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if user.rating < 0 %}
+<div class="content-section">
+	<h2 class="article-title red">Warning!</h2>
+	This user's reputability (rating) is negative. It is advised you are extra cautious when dealing with this user.
+</div>
+{% endif %}
+	<div class="content-section">
+	  <div class="media">
+	    <img class="rounded-circle account-img" src='{{ url_for("static", filename="profile_pics/" + user.image_file) }}' alt="{{user.username}}'s profile picture">
+	    <div class="media-body">
+	      {% if current_user.is_authenticated and current_user == user %}
+	      <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
+	      {% endif %}
+	      <h2 class="account-heading">{{ user.username }} {{ user.rateBar|safe }}
+	      	{% for badge in user.badges[:3] %}
+				<span title="{{ badge.name }}" class="{{ badge.html }}"></span>
+	      	{% endfor %}
+	      </h2>
+	      	<p class="account-metadata text-secondary"><b>{{ user.posts|length }}</b> {% if user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{user.rating}}</b> reputability  | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
+	      </p>
+	      <p class="text-secondary"><i>{{ user.biography }}</i></p>
+	    </div>
+	  </div>
+	  <button class='btn btn-secondary btn-sm ml-3' onclick="location.href='{{ url_for('users.userpage', username=user.username) }}'">posts ({{user.posts|length}})</button>
+	 </div>
+	<div class="content-section">
+	<button class='btn btn-success btn-sm' style="visibility: hidden;">a</button>
+	<button style="float: right;" class='btn btn-danger btn-sm' onclick="location.href = '{{url_for('users.ratings', username=user.username)}}'">ratings received</button>
+	</div>
+	{% if ratings.items %}
+	{% for rate in ratings.items %}
+	<article class="media content-section">
+		<div class="media-body">
+	    <div class="article-metadata">
+	      rating given to <a class="mr-2" href="{{ url_for('users.ratings', username=rate.ratee.username) }}">{{ rate.ratee.username }}</a>
+	      <small class="text-muted">{{ rate.date_rated.strftime('%B %d, %Y - %I:%M %p') }}</small>
+	      	<div style="float:right;" class="mr-2">
+	      	</div>
+	    </div>
+	    <p class="article-description">
+	    	<span class="rating-impact">{% if rate.impact > 0 %}<span class="fa fa-plus-circle green"></span>{% elif rate.impact < 0 %}<span class="fa fa-minus-circle red"></span>{% endif %} {{ rate.impact|abs }}</span> <i>{{ rate.content }}</i>
+	    </p>
+	    <p class="article-content"></p>
+	  </div>
+	</article>
+	{% endfor %}
+	<center>
+	{% for page_num in ratings.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+	{% if page_num %}
+		{% if ratings.page == page_num %}
+		<a class="btn btn-info mb-4" href="{{ url_for('users.ratings', username=user.username, p=page_num) }}">{{ page_num }}</a>
+		{% else %}
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.ratings', username=user.username, p=page_num) }}">{{ page_num }}</a>
+		{% endif %}
+	{% else %}
+		...
+	{% endif %}
+	{% endfor %}
+	</center>
+{% else %}
+	<article class="media content-section">
+		<i>{{user.username}} has not rated anyone else yet.</i>
+	</article>
+{% endif %}
+
+{% endblock content %}

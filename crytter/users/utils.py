@@ -25,12 +25,12 @@ def verifyPerms(user):
 # Get the HTML userbar for a user's rating.
 def rateToHTML(rating):
 	ratingToBar = {
-		-1: '<a class="mr-1 btn btn-danger btn-xs">Disliked</a>',
-		20: '<a class="mr-1 btn btn-secondary btn-xs">New User</a>',
-		40: '<a class="mr-1 btn btn-light btn-xs" style="color: #000000;">Dealer</a>',
-		60: '<a class="mr-1 btn btn-merchant btn-xs">Merchant</a>',
-		80: '<a class="mr-1 btn btn-orange btn-xs">Investor</a>',
-		100: '<a class="mr-1 btn btn-tycoon btn-xs ml-2">Tycoon</a>'
+		-1: '<a href="/help/rating-badge" class="mr-1 btn btn-danger btn-xs">Disliked</a>',
+		20: '<a href="/help/rating-badge" class="mr-1 btn btn-secondary btn-xs">New User</a>',
+		40: '<a href="/help/rating-badge" class="mr-1 btn btn-light btn-xs" style="color: #000000;">Dealer</a>',
+		60: '<a href="/help/rating-badge" class="mr-1 btn btn-merchant btn-xs">Merchant</a>',
+		80: '<a href="/help/rating-badge" class="mr-1 btn btn-orange btn-xs">Investor</a>',
+		100: '<a href="/help/rating-badge" class="mr-1 btn btn-tycoon btn-xs ml-2">Tycoon</a>'
 		}
 
 	if rating < 0: return ratingToBar[-1]

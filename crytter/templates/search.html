@@ -18,7 +18,7 @@ function getSearch() {return document.getElementById('searchBox').value;}
 						{% endfor %}
 					</div>
 				{% else %}
-				{{ form.wanted(id='searchBox', class='form-control form-control-lg') }}
+				{{ form.wanted(id='searchBox', class='form-select form-control form-control-lg') }}
 				{% endif %}
 			</div>
 			<div class='form-group'>

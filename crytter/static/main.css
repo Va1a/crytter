@@ -56,6 +56,22 @@ textarea, select, input[type=text] {
   color: #ffffff!important;
 }
 
+select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, white 60%),
+    linear-gradient(135deg, white 40%, transparent 50%) !important;
+  background-position:
+    calc(100% - 30px) 20px,
+    calc(100% - 20px) 20px,
+    100% 0;
+  background-size:
+    10px 10px,
+    10px 10px;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 samp {
   background-color: #5c5e50;
   border: 2px solid #5c5e50;

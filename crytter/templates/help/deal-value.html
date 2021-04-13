@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<div class="content-section">
+	<center><h2 class="article-title blue">Deal Value?</h2></center>
+	<hr>
+	<p>The deal value displays what the offeree will be receiving in terms of what currency they will be giving, so as to help display if the deal is fair or not. Rates provided by <a href="https://www.coinbase.com/about"><u>Coinbase</u></a>.</p>
+	<p>The deal value updates every 10 seconds. Refreshing the page is not needed to ensure the latest value is displayed.</p>
+	<p>The <a href="{{ url_for('main.help', topic='exchange-rates') }}"><u>exchange rates</u></a> sidebar also displays various currency values.</p>
+	
+	</div>
+{% endblock content %}
