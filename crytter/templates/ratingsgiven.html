@@ -25,7 +25,7 @@
 	 </div>
 	<div class="content-section">
 	<button class='btn btn-success btn-sm' style="visibility: hidden;">a</button>
-	<button style="float: right;" class='btn btn-danger btn-sm ml-1'>ratings given</button>
+	<button style="float: right;" class='btn btn-danger btn-sm ml-1 hideWhenSmall'>ratings given</button>
 	<button style="float: right;" class='btn btn-outline-danger btn-sm' onclick="location.href = '{{url_for('users.ratings', username=user.username)}}'">ratings received</button>
 	</div>
 	{% if ratings.items %}

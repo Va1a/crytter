@@ -1,5 +1,6 @@
 from flask import render_template, send_from_directory, request, Blueprint, abort, flash, redirect, url_for
 from flask_login import current_user
+from jinja2 import TemplateNotFound
 from sqlalchemy import func
 
 from crytter.models import User, Post, Badge
@@ -44,7 +45,10 @@ def favicon():
 # HELP DOCS
 @main.route('/help/<string:topic>')
 def help(topic):
-	return render_template(f'help/{topic}.html', title=topic)
+	try:
+		return render_template(f'help/{topic}.html', title=topic)
+	except TemplateNotFound:
+		abort(404)
 
 # SEARCH PAGE
 @main.route('/search', methods=['GET', 'POST'])

@@ -59,6 +59,10 @@
 					{{ form.confirm_password(class='form-control form-control-lg') }}
 					{% endif %}
 				</div>
+				<div class='form-check'>
+					{{ form.terms(class='form-check-input') }}
+					I agree to the <a href="{{url_for('main.help', topic='terms')}}"><u>Terms & Conditions</u></a> as well as the <a href="{{url_for('main.help', topic='rules')}}"><u>Rules & Guidelines</u></a> of crytter.org.				
+				</div>
 				<div class="form-group">
 					{{ form.recaptcha.label(class='form-control-label') }}
 					{% if form.recaptcha.errors %}

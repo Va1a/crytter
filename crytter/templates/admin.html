@@ -9,14 +9,12 @@
 		<div style="float:right;">
 			<button class='btn btn-danger btn-sm' data-toggle="modal" data-target="#permissionsModal">permissions</button>
 			<button class='btn btn-danger btn-sm' data-toggle="modal" data-target="#changeEmailModal">change email</button>
-			<button class='btn btn-danger btn-sm'>prune</button>
 		</div>
 	</div>
-<hr>
 <div class="content-section">
  <ul class="list-group">
  	{% for user in users.items %}
-    <li class="list-group-item list-group-item-light"><a class='article-title' href='{{ url_for("users.userpage", username=user.username) }}'><b>{{user.username}}</b></a> | <b>{{ user.posts|length }}</b> {% if user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{ user.comments|length }}</b> comment{% if not user.comments|length == 1 %}s{% endif %} | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b> | Perm. Level: <b>{{ user.permission_level }}</b> |
+    <li class="list-group-item list-group-item-light"><a class='article-title' href='{{ url_for("users.userpage", username=user.username) }}'><b>{{user.username}}</b></a> | <b>{{ user.posts|length }}</b> {% if user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{ user.rating }}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b> | Perm. Level: <b>{{ user.permission_level }}</b> |
     	{% if user.badges %}
     	Badge{% if user.badges|length != 1 %}s{% endif %}:
     	{% for badge in user.badges %}

@@ -5,3 +5,4 @@ Disallow: /*.jpg$
 Disallow: /*.jpeg$
 Disallow: /*.js$
 Disallow: /*.css$
+Disallow: /*.svg$

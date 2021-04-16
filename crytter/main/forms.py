@@ -33,4 +33,3 @@ class ChangeEmailForm(FlaskForm):
 
 class StickyPostForm(FlaskForm):
 	post_id = StringField('Post ID', validators=[DataRequired()])
-	

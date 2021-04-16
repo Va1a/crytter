@@ -20,6 +20,8 @@ class RegistrationForm(FlaskForm):
 		DataRequired(), EqualTo('password', message='Passwords must match.')
 		])
 
+	terms = BooleanField('I agree to the Terms & Conditions as well as the Rules & Guidelines of crytter.org', validators=[DataRequired(message='You must agree to create an account.')])
+
 	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
 	submit = SubmitField('create account')
 
