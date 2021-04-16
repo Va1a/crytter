@@ -12,13 +12,7 @@ posts = Blueprint('posts', __name__)
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
-		Odict = {
-			'wants': form.wanted.data,
-			'has': form.giving.data,
-			'amountWants': form.howMuchWanted.data,
-			'amountGiving': form.howMuchGiving.data
-			}
-		post = Post(title=f'I want {Odict["amountWants"]} {Odict["wants"]}, I\'ll give {Odict["amountGiving"]} {Odict["has"]}', content=form.content.data, author=current_user, wanted=form.wanted.data, amountWanted=form.howMuchWanted.data, giving=form.giving.data, amountGiving=form.howMuchGiving.data)
+		post = Post(title=f'I want {form.howMuchWanted.data} {form.wanted.data}, I\'ll give {form.howMuchGiving.data} {form.giving.data}', content=form.content.data, author=current_user, wanted=form.wanted.data, amountWanted=form.howMuchWanted.data, giving=form.giving.data, amountGiving=form.howMuchGiving.data)
 		db.session.add(post)
 		db.session.commit()
 		flash(f'Posted your offer.', 'success')

@@ -11,18 +11,17 @@ document.getElementById('deleteCommentForm').action = '/comment/'+id+'/delete?re
 	The offeror's reputability (rating) is negative. It is advised you are extra cautious when dealing with them.
 </div>
 {% endif %}
-<article class="media content-section">
+<article itemscope itemprop="http://schema.org/Offer" class="media content-section">
 <div class='col-'>
 <img class='rounded-circle article-img' src='{{ url_for("static", filename="profile_pics/" + post.author.image_file) }}'>
 <div class='row-'>
 {{ post.author.rateBar|safe }}
 </div>
 </div>
-
-  <div class="media-body">
+<div class="media-body">
     <div class="article-metadata">
-      <a class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}">{{ post.author.username }}</a>
-      <small class="text-muted">{% if post.sticky %}<span class="fa fa-thumb-tack blue" title="Pinned Offer (Advertisement)"></span> {% endif %}{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
+      <a class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}" itemprop="offeredBy">{{ post.author.username }}</a>
+      <small class="text-muted" itemprop="validFrom">{% if post.sticky %}<span class="fa fa-thumb-tack blue" title="Pinned Offer (Advertisement)"></span> {% endif %}{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
       	<div style="float:right;" class="mr-2">
       		<button class='btn btn-info btn-xs' onclick="window.history.back()">back</button>
       	{% if post.author == current_user %}
@@ -31,8 +30,8 @@ document.getElementById('deleteCommentForm').action = '/comment/'+id+'/delete?re
       	{% endif %}
       	</div>
     </div>
-    <h2 class="article-title">{% if current_user != post.author %}Give <span class="give">{{ post.amountWanted }} {{ post.wanted }}</span> <span class="TS">⇄</span> Get <span class="get">{{ post.amountGiving }} {{ post.giving }}</span>{% else %}You are offering: <span class="give">{{ post.amountGiving }} {{ post.giving }}</span>{% endif %}</h2>
-    <p class="article-description">
+    <h2 itemprop="name" class="article-title">{% if current_user != post.author %}Give <span class="give">{{ post.amountWanted }} {{ post.wanted }}</span> <span class="TS">⇄</span> Get <span class="get">{{ post.amountGiving }} {{ post.giving }}</span>{% else %}You are offering: <span class="give">{{ post.amountGiving }} {{ post.giving }}</span>{% endif %}</h2>
+    <p itemprop="description" class="article-description">
     	{% if post.author == current_user %}
     	As the <b>offeror</b>, you will get
     	<samp class="get">{{ post.amountWanted }} {{ post.wanted }}</samp>

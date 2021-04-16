@@ -6,7 +6,72 @@
 	<h4 class="article-title blue" style="display:inline; font-style: italic;">Decentralized trading for a decentralized world.</h4>
 </div>
 <div class="content-section">
-	<div class="article-content">Hi</div>
+	<div class="article-content">
+		<h1 style="text-align: center; margin-bottom: 0.01rem;"><span class="get">{{ numToday }}</span> new offers today</h1>
+	<hr class="hideWhenSmall">
+	<div class="hideWhenSmall container" style="padding: 0px; margin: 0px; height: 60%;"> <div class="row" style="padding: 0px; margin: 0px; height: 60%;"><div class="col-sm">
+		<h5>Bitcoin <img src="static/crypto/bitcoin-btc-logo.svg" width="25px" height="25px"> <samp id="big-btc"></samp></h5>
+		<h5>Ethereum <img src="static/crypto/ethereum-eth-logo.svg" width="25px" height="25px"> <samp id="big-eth"></samp></h5>
+		<h5>Monero <img src="static/crypto/monero-xmr-logo.svg" width="25px" height="25px"> <samp id="big-xmr"></samp></h5>
+		</div>
+		<div class="col-sm">
+			<h5>XRP <img src="static/crypto/xrp-xrp-logo.svg" width="25px" height="25px"> <samp id="big-xrp"></samp></h5>
+			<h5>Binance Coin <img src="static/crypto/binance-coin-bnb-logo.svg" width="25px" height="25px"> <samp id="big-bnb"></samp></h5>
+			<h5>Litecoin <img src="static/crypto/litecoin-ltc-logo.svg" width="25px" height="25px"> <samp id="big-ltc"></samp></h5></div></div></div></div>
+<script type="text/javascript">
+(async function indexPrices(){
+	getPrice('BTC', document.getElementById('big-btc'));
+	getPrice('ETH', document.getElementById('big-eth'));
+	getPrice('XMR', document.getElementById('big-xmr'));
+	getPrice('XRP', document.getElementById('big-xrp'));
+	getPrice('BNB', document.getElementById('big-bnb'));
+	getPrice('LTC', document.getElementById('big-ltc'));
+	setTimeout(indexPrices, 15000);
+})();
+</script>
 </div>
+
+<div class="smzoom content-section" style="text-align: center;" onclick="location.href = '{{ url_for('main.home') }}'">
+<h2 class="blue">Newest Offers:</h2>
+</div>
+
+{% for post in newest %}
+<article itemscope itemtype="http://schema.org/Offer" class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
+<div class='col-'>
+<img class='rounded-circle article-img ml-1' src='{{ url_for("static", filename="profile_pics/" + post.author.image_file) }}' alt="{{ post.author.username }}'s profile picture">
+<div class='row-'>
+{{ post.author.rateBar|safe }}
+</div>
+</div>
+  <div class="media-body">
+    <div class="article-metadata">
+    <a itemprop="offeredBy" class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}">
+		{{ post.author.username }}
+	</a>
+    <small class="text-muted" itemprop="validFrom">{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
+      <div style="float:right;" class="mr-2">
+      	<a class="btn btn-secondary btn-xs" id="commentsButton" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
+      </div>
+    </div>
+    <h2 itemprop="name" class="article-title">{{ post.title }}</h2>
+    <p itemprop="description" class="article-description">
+    	{% if post.author == current_user %}
+    	As the <b>offeror</b>, you will get
+    	<samp class="get">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountGiving }} {{ post.giving }}</samp>
+    	 to the <b>offeree</b>.
+    	{% else %}
+    	As the <b>offeree</b>, you will get
+    	<samp class="get"> {{ post.amountGiving }} {{ post.giving }}</samp>
+    	in return for giving 
+    	<samp class="give">{{ post.amountWanted }} {{ post.wanted }}</samp>
+    	 to the <b>offeror</b>.
+    	{% endif %}
+    </p>
+    <p class="article-content"><i>{% if post.content|length > 200 %}{{ post.content[:197] }} </i><a href="{{ url_for('posts.post', post_id=post.id) }}" class="btn btn-secondary btn-xs"><b>...</b></a>{% else %}{{ post.content }}</i>{% endif %}</p>
+  </div>
+</article>
+	{% endfor %}
 
 {% endblock content %}

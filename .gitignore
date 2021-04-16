@@ -6,3 +6,4 @@ Scripts/*
 pyenv.cfg
 crytter/static/profile_pics/*
 crytter/site.db
+crytter/static/crypto/*

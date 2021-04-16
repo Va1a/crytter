@@ -1,9 +1,13 @@
 from flask import render_template, send_from_directory, request, Blueprint, abort, flash, redirect, url_for
-from crytter.models import User, Post, Badge
 from flask_login import current_user
+from sqlalchemy import func
+
+from crytter.models import User, Post, Badge
 from crytter.main.forms import SearchForm, AssignBadgeForm, RevokeBadgeForm, PermissionsForm, ChangeEmailForm, StickyPostForm
 from crytter.main.utils import getSearchResults
 from crytter import db
+
+from datetime import date
 import json
 
 main = Blueprint('main', __name__)
@@ -11,7 +15,9 @@ main = Blueprint('main', __name__)
 # HOME PAGE
 @main.route('/')
 def index():
-	return render_template('index.html')
+	today = Post.query.filter(func.date(Post.date_posted) == date.today()).count()
+	newest = Post.query.order_by(Post.date_posted.desc()).limit(3).all()
+	return render_template('index.html', numToday=today, newest=newest)
 
 # POSTS PAGE
 @main.route('/posts')

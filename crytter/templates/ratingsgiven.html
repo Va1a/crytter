@@ -13,10 +13,8 @@
 	      {% if current_user.is_authenticated and current_user == user %}
 	      <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
 	      {% endif %}
-	      <h2 class="account-heading">{{ user.username }} {{ user.rateBar|safe }}
-	      	{% for badge in user.badges[:3] %}
-				<span title="{{ badge.name }}" class="{{ badge.html }}"></span>
-	      	{% endfor %}
+	      <h2 class="account-heading" style="word-break: normal;">{{ user.username }}{% for badge in user.badges[:3] %}<span title="{{ badge.name }}" class="ml-1 {{ badge.html }}"></span>{% endfor %}
+	      	{{ user.rateBar|safe }}
 	      </h2>
 	      	<p class="account-metadata text-secondary"><b>{{ user.posts|length }}</b> {% if user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{user.rating}}</b> reputability  | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
 	      </p>
@@ -27,7 +25,8 @@
 	 </div>
 	<div class="content-section">
 	<button class='btn btn-success btn-sm' style="visibility: hidden;">a</button>
-	<button style="float: right;" class='btn btn-danger btn-sm' onclick="location.href = '{{url_for('users.ratings', username=user.username)}}'">ratings received</button>
+	<button style="float: right;" class='btn btn-danger btn-sm ml-1'>ratings given</button>
+	<button style="float: right;" class='btn btn-outline-danger btn-sm' onclick="location.href = '{{url_for('users.ratings', username=user.username)}}'">ratings received</button>
 	</div>
 	{% if ratings.items %}
 	{% for rate in ratings.items %}
@@ -50,9 +49,9 @@
 	{% for page_num in ratings.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 	{% if page_num %}
 		{% if ratings.page == page_num %}
-		<a class="btn btn-info mb-4" href="{{ url_for('users.ratings', username=user.username, p=page_num) }}">{{ page_num }}</a>
+		<a class="btn btn-info mb-4" href="{{ url_for('users.ratingsGiven', username=user.username, p=page_num) }}">{{ page_num }}</a>
 		{% else %}
-		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.ratings', username=user.username, p=page_num) }}">{{ page_num }}</a>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.ratingsGiven', username=user.username, p=page_num) }}">{{ page_num }}</a>
 		{% endif %}
 	{% else %}
 		...

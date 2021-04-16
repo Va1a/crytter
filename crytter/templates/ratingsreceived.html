@@ -13,10 +13,8 @@
 	      {% if current_user.is_authenticated and current_user == user %}
 	      <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
 	      {% endif %}
-	      <h2 class="account-heading">{{ user.username }} {{ user.rateBar|safe }}
-	      	{% for badge in user.badges[:3] %}
-				<span title="{{ badge.name }}" class="{{ badge.html }}"></span>
-	      	{% endfor %}
+	      <h2 class="account-heading" style="word-break: normal;">{{ user.username }}{% for badge in user.badges[:3] %}<span title="{{ badge.name }}" class="ml-1 {{ badge.html }}"></span>{% endfor %}
+	      	{{ user.rateBar|safe }}
 	      </h2>
 	      	<p class="account-metadata text-secondary"><b>{{ user.posts|length }}</b> {% if user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{user.rating}}</b> reputability  | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
 	      </p>
@@ -27,7 +25,8 @@
 	 </div>
 	<div class="content-section">
 	<button class='btn btn-{{ "outline-" if user == current_user }}success btn-sm' data-toggle="modal" data-target="#userRatingModal">{% if oldReview %}edit{% else %}add{% endif %} rating</button>
-	<button style="float: right;" class='btn btn-danger btn-sm' onclick="location.href = '{{url_for('users.ratingsGiven', username=user.username)}}'">ratings of others</button>
+	<button style="float: right;" class='btn btn-outline-danger btn-sm' onclick="location.href = '{{url_for('users.ratingsGiven', username=user.username)}}'">ratings given</button>
+	<button style="float: right;" class='btn btn-danger btn-sm mr-1'>ratings received</button>
 	</div>
 	{% if ratings.items %}
 	{% for rate in ratings.items %}

@@ -7,26 +7,26 @@
 		</center>
 	</article>
 	{% endif %}
-	{% for post in posts.items %}
-<article class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
+{% for post in posts.items %}
+<article itemscope itemtype="http://schema.org/Offer" class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
 <div class='col-'>
-<img class='rounded-circle article-img ml-1' src='{{ url_for("static", filename="profile_pics/" + post.author.image_file) }}'>
+<img class='rounded-circle article-img ml-1' src='{{ url_for("static", filename="profile_pics/" + post.author.image_file) }}' alt="{{ post.author.username }}'s profile picture">
 <div class='row-'>
 {{ post.author.rateBar|safe }}
 </div>
 </div>
   <div class="media-body">
     <div class="article-metadata">
-    <a class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}">
+    <a itemprop="offeredBy" class="mr-2" href="{{ url_for('users.userpage', username=post.author.username) }}">
 		{{ post.author.username }}
 	</a>
-    <small class="text-muted">{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
+    <small class="text-muted" itemprop="validFrom">{% if post.author == current_user %}(me) {% endif %}{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
       <div style="float:right;" class="mr-2">
       	<a class="btn btn-secondary btn-xs" id="commentsButton" href="{{ url_for('posts.post', post_id=post.id) }}">comments ({{post.comments|length}})</a>
       </div>
     </div>
-    <h2 class="article-title">{{ post.title }}</h2>
-    <p class="article-description">
+    <h2 itemprop="name" class="article-title">{{ post.title }}</h2>
+    <p itemprop="description" class="article-description">
     	{% if post.author == current_user %}
     	As the <b>offeror</b>, you will get
     	<samp class="get">{{ post.amountWanted }} {{ post.wanted }}</samp>

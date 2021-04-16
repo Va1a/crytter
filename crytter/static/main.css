@@ -25,6 +25,9 @@ hr{background-color: #75715e;}
     #commentsButton {
         display: none;
     }
+    .hideWhenSmall {
+        display: none;
+    }
 }
 
 .orange {

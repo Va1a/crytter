@@ -11,12 +11,10 @@
 	    <img class="rounded-circle account-img" src='{{ url_for("static", filename="profile_pics/" + user.image_file) }}'>
 	    <div class="media-body">
 	      {% if current_user.is_authenticated and current_user == user %}
-	      <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
+	      <a style='float:right;' class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.profile') }}";'>edit profile</a>
 	      {% endif %}
-	      <h2 class="account-heading">{{ user.username }} {{ user.rateBar|safe }}
-	      	{% for badge in user.badges[:3] %}
-				<span title="{{ badge.name }}" class="{{ badge.html }}"></span>
-	      	{% endfor %}
+	      <h2 class="account-heading" style="word-break: normal;">{{ user.username }}{% for badge in user.badges[:3] %}<span title="{{ badge.name }}" class="ml-1 {{ badge.html }}"></span>{% endfor %}
+	      	{{ user.rateBar|safe }}
 	      </h2>
 	      <p class="account-metadata text-secondary"><b>{{ posts.total }}</b> {% if posts.total == 1 %} post {% else %} posts {% endif %} | <b>{{user.rating}}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
 	      </p>
@@ -26,8 +24,9 @@
 	  <button class='btn btn-secondary btn-sm ml-2' onclick="location.href='{{ url_for('users.ratings', username=user.username) }}'">ratings ({{user.ratingsByOthers|length}})</button>
 	 </div>
 	{% if posts and posts.items %}
+	<div itemscope itemprop="makesOffer">
 	{% for post in posts.items %}
-	<article class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
+	<article itemscope itemprop="http://schema.org/Offer" class="smzoom media content-section" onclick="location.href='{{ url_for('posts.post', post_id=post.id) }}'">
 	<div class="media-body">
     <div class="article-metadata">
     <small class="text-muted">{{ post.date_posted.strftime('%B %d, %Y - %I:%M %p') }}</small>
@@ -55,6 +54,7 @@
   	</div>
 	</article>
 	{% endfor %}
+</div>
 	<center>
 	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
 	{% if page_num %}
