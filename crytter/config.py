@@ -3,7 +3,7 @@ import os
 
 class Config:
 	SECRET_KEY = os.environ.get('crytter-secret-key')
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
 	# SERVER_NAME = 'crytter.org'
 	RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA-PUBLIC-KEY')
 	RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA-SECRET-KEY')
