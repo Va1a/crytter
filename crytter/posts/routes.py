@@ -12,7 +12,7 @@ posts = Blueprint('posts', __name__)
 def new_post():
 	form = PostForm()
 	if form.validate_on_submit():
-		post = Post(title=f'I want {form.howMuchWanted.data} {form.wanted.data}, I\'ll give {form.howMuchGiving.data} {form.giving.data}', content=form.content.data, author=current_user, wanted=form.wanted.data, amountWanted=int(form.howMuchWanted.data), giving=form.giving.data, amountGiving=int(form.howMuchGiving.data))
+		post = Post(title=f'I want {form.howMuchWanted.data} {form.wanted.data}, I\'ll give {form.howMuchGiving.data} {form.giving.data}', content=form.content.data, author=current_user, wanted=form.wanted.data, amountWanted=float(form.howMuchWanted.data), giving=form.giving.data, amountGiving=float(form.howMuchGiving.data))
 		db.session.add(post)
 		db.session.commit()
 		flash(f'Posted your offer.', 'success')
