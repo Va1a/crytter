@@ -7,7 +7,7 @@ from crytter import mail
 # FUNCTION TO SEND RESET PASSWORD EMAIL
 def send_reset_email(user):
 	token = user.get_reset_token()
-	msg = Message('Reset Password Request for irony.club', sender='reset@irony.club', recipients=[user.email])
+	msg = Message('Reset Password Request for crytter.org', sender='forgot@crytter.org', recipients=[user.email])
 	msg.body = f'''
 To reset your password, visit {url_for('users.resetPassword', token=token, _external=True)}
 
