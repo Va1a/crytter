@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
 	username = db.Column(db.String(32), unique=True, nullable=False)
 	email = db.Column(db.String(256), unique=True, nullable=False)
 	rating = db.Column(db.Integer, nullable=False, default=0)
-	rateBar = db.Column(db.String, nullable=False, default='<a class="mr-1 btn btn-secondary btn-xs" >New User</a>')
+	rateBar = db.Column(db.String, nullable=False, default='<a href="/help/rating-badge" class="mr-1 btn btn-secondary btn-xs" >New User</a>')
 	date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	biography = db.Column(db.Text, nullable=False, default='')
 	image_file = db.Column(db.String, nullable=False, default='default.jpg')
