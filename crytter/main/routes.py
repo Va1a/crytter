@@ -3,8 +3,8 @@ from flask_login import current_user
 from jinja2 import TemplateNotFound
 from sqlalchemy import func
 
-from crytter.models import User, Post, Badge
-from crytter.main.forms import SearchForm, AssignBadgeForm, RevokeBadgeForm, PermissionsForm, ChangeEmailForm, StickyPostForm
+from crytter.models import User, Post, Badge, Rating, Comment, Alert
+from crytter.main.forms import SearchForm, AssignBadgeForm, RevokeBadgeForm, PermissionsForm, ChangeEmailForm, StickyPostForm, DeleteUserForm
 from crytter.main.utils import getSearchResults
 from crytter import db
 
@@ -91,6 +91,7 @@ def admin():
 	permform = PermissionsForm()
 	emailform = ChangeEmailForm()
 	stickyform = StickyPostForm()
+	delform = DeleteUserForm()
 
 	isAdmin = False
 	if current_user.permission_level == 5: isAdmin = True;
@@ -156,5 +157,43 @@ def admin():
 		else:
 			flash(f'Unable to find post with ID {stickyform.post_id.data}', 'danger')
 
+	elif delform.validate_on_submit():
+		if isAdmin:
+			user = User.query.filter_by(username=delform.username.data).first()
+			if user:
+				posts = Post.query.filter_by(author=user).all()
+				ratings = Rating.query.filter_by(rater=user).all()
+				badges = Badge.query.filter_by(bearer=user).all()
+				receivedRatings = Rating.query.filter_by(ratee=user).all()
+				comments = Comment.query.filter_by(author=user).all()
+				alerts = Alert.query.filter_by(user_id=user).all()
+				alertsFrom = Alert.query.filter_by(from_user=user.id).all()
+				for post in posts:
+					postComms = Comment.query.filter_by(assoc_post=post)
+					for comment in postComms:
+						db.session.delete(comment)
+					db.session.delete(post)
+				for rate in ratings:
+					db.session.delete(rate)
+				for rate in receivedRatings:
+					db.session.delete(rate)
+				for comment in comments:
+					db.session.delete(comment)
+				for badge in badges:
+					db.session.delete(badge)
+				for alert in alerts:
+					db.session.delete(alert)
+				for alert in alertsFrom:
+					db.session.delete(alert)
+
+				db.session.delete(user)
+				db.session.commit()
+				flash(f'User "{delform.username.data}" and all related info purged', 'success')
+			else:
+				flash(f'User "{delform.username.data}" does not exist.', 'danger')
+		else:
+			flash('You lack the required permissions to purge users', 'danger')
+
+
 	if request.method == 'POST': return redirect(url_for('main.admin'))
-	return render_template('admin.html', title='admin', users=users, badgeform=badgeform, revokebadgeform=revokebadgeform, permform=permform, emailform=emailform, stickyform=stickyform)
+	return render_template('admin.html', title='admin', users=users, badgeform=badgeform, revokebadgeform=revokebadgeform, permform=permform, emailform=emailform, stickyform=stickyform, delform=delform)

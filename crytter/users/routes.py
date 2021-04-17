@@ -34,7 +34,7 @@ def login():
 				user = User.query.filter_by(email=form.usernameORemail.data).first()
 			if user and bcrypt.check_password_hash(user.password, form.password.data):
 				if not verifyPerms(user):
-					flash('Your account has been locked. Contact us for assistance.', 'danger')
+					flash('Your account has been locked. Email contact@crytter.org for assistance.', 'danger')
 				else:
 					login_user(user, remember=form.remember.data)
 					nextpage = request.args.get('next')

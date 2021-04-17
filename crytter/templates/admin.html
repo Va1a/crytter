@@ -9,6 +9,7 @@
 		<div style="float:right;">
 			<button class='btn btn-danger btn-sm' data-toggle="modal" data-target="#permissionsModal">permissions</button>
 			<button class='btn btn-danger btn-sm' data-toggle="modal" data-target="#changeEmailModal">change email</button>
+			<button class='btn btn-danger btn-sm' data-toggle="modal" data-target="#purgeModal">purge</button>
 		</div>
 	</div>
 <div class="content-section">
@@ -313,6 +314,46 @@
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 			<div class='form-group'>
 				<input class="btn btn-danger" id="submit" name="submit" type="submit" value="Toggle Stickiness">
+			</div>	
+	       </div>
+       </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="purgeModal" tabindex="-1" role="dialog" aria-labelledby="purgeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="purgeModalLabel">Purge User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action='' method='POST'>
+	      <div class="modal-body">
+		{{ delform.hidden_tag() }}
+		<fieldset class='form-group'>
+			<div class='form-group'>
+				{{ delform.username.label(class='form-control-label') }}
+				
+				{% if delform.username.errors %}
+					{{ delform.username(class='form-control form-control-lg is-invalid') }}
+					<div class='invalid-feedback'>
+						{% for error in delform.username.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+				{{ delform.username(class='form-control form-control-lg') }}
+				{% endif %}
+			</div>
+		</fieldset>
+		</div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			<div class='form-group'>
+				<input class="btn btn-danger" id="submit" name="submit" type="submit" value="Purge User">
 			</div>	
 	       </div>
        </form>

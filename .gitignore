@@ -5,5 +5,5 @@ Lib/*
 Scripts/*
 pyenv.cfg
 crytter/static/profile_pics/*
-crytter/site.db
+site.db
 crytter/static/crypto/*

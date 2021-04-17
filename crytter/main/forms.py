@@ -33,3 +33,6 @@ class ChangeEmailForm(FlaskForm):
 
 class StickyPostForm(FlaskForm):
 	post_id = StringField('Post ID', validators=[DataRequired()])
+
+class DeleteUserForm(FlaskForm):
+	username = StringField('Username', validators=[DataRequired()])
