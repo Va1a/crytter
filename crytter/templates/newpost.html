@@ -1,9 +1,5 @@
 {% extends 'layout.html' %}
 {% block content %}
-<script type="text/javascript">
-setInputFilter(document.getElementById("HMG"), function(value) {return /^\d*\.?\d*$/.test(value);});
-setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\d*$/.test(value);});
-</script>
 <div class='content-section'>
 	<form method='POST' action=''>
 		{{ form.hidden_tag() }}
@@ -13,21 +9,21 @@ setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\
 				{{ form.wanted.label(class='form-control-label') }}
 				
 				{% if form.wanted.errors %}
-					{{ form.wanted(class='form-control form-control-lg is-invalid') }}
+					{{ form.wanted(class='form-control form-control-lg is-invalid', id='wanted') }}
 					<div class='invalid-feedback'>
 						{% for error in form.wanted.errors %}
 						<span>{{ error }}</span>
 						{% endfor %}
 					</div>
 				{% else %}
-				{{ form.wanted(class='form-control form-control-lg') }}
+				{{ form.wanted(class='form-control form-control-lg', id='wanted') }}
 				{% endif %}	
 			</div>
 			<div class='form-group'>
-				{{ form.howMuchWanted.label(class='form-control-label') }} <samp>ex. 23.00</samp>
+				{{ form.howMuchWanted.label(class='form-control-label') }} <samp title="Recommendation based on current market prices and amount you are willing to give" class="get" id="wAmount">ex. 23.00</samp>
 				
 				{% if form.howMuchWanted.errors %}
-					{{ form.howMuchWanted(class='form-control form-control-lg is-invalid') }}
+					{{ form.howMuchWanted(class='form-control form-control-lg is-invalid', id='HMW') }}
 					<div class='invalid-feedback'>
 						{% for error in form.howMuchWanted.errors %}
 						<span>{{ error }}</span>
@@ -42,21 +38,21 @@ setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\
 				{{ form.giving.label(class='form-control-label') }}
 				
 				{% if form.giving.errors %}
-					{{ form.giving(class='form-control form-control-lg is-invalid') }}
+					{{ form.giving(class='form-control form-control-lg is-invalid', id='giving') }}
 					<div class='invalid-feedback'>
 						{% for error in form.giving.errors %}
 						<span>{{ error }}</span>
 						{% endfor %}
 					</div>
 				{% else %}
-				{{ form.giving(class='form-control form-control-lg') }}
+				{{ form.giving(class='form-control form-control-lg', id='giving') }}
 				{% endif %}	
 			</div>
 			<div class='form-group'>
-				{{ form.howMuchGiving.label(class='form-control-label') }} <samp>ex. 10.00</samp>
+				{{ form.howMuchGiving.label(class='form-control-label') }} <samp title="Recommendation based on current market prices and amount you want to get" class="give" id="gAmount">ex. 10.00</samp>
 				
 				{% if form.howMuchGiving.errors %}
-					{{ form.howMuchGiving(class='form-control form-control-lg is-invalid') }}
+					{{ form.howMuchGiving(class='form-control form-control-lg is-invalid', id='HMG') }}
 					<div class='invalid-feedback'>
 						{% for error in form.howMuchGiving.errors %}
 						<span>{{ error }}</span>
@@ -99,5 +95,25 @@ setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\
 			<input class="btn btn-outline-info" id="submit" name="submit" type="submit" value="{{ submit }}">
 		</div>
 	</form>
+	<script type="text/javascript">
+async function liveOfferPrices(){
+	giveOfHas = await dealValue(document.getElementById("giving").value, document.getElementById("wanted").value);
+	hasOfWants = await dealValue(document.getElementById("wanted").value, document.getElementById("giving").value);
+	hmw = parseFloat(document.getElementById("HMW").value);
+	hmg = parseFloat(document.getElementById("HMG").value);
+
+	document.getElementById('gAmount').textContent = 'ex. '+parseFloat(hasOfWants*hmw).toFixed(5).replace("NaN", "---")+' '+document.getElementById("giving").value;
+	document.getElementById('wAmount').textContent = 'ex. '+parseFloat(giveOfHas*hmg).toFixed(5).replace("NaN", "---")+' '+document.getElementById("wanted").value;
+	setTimeout(liveOfferPrices, 10000);
+};
+document.getElementById("HMW").oninput = liveOfferPrices;
+document.getElementById("HMG").oninput = liveOfferPrices;
+document.getElementById("giving").oninput = liveOfferPrices;
+document.getElementById("wanted").oninput = liveOfferPrices;
+	</script>
+<script type="text/javascript">
+setInputFilter(document.getElementById("HMG"), function(value) {return /^\d*\.?\d*$/.test(value);});
+setInputFilter(document.getElementById("HMW"), function(value) {return /^\d*\.?\d*$/.test(value);});
+</script>
 </div>
 {% endblock content %}
