@@ -35,7 +35,7 @@ def post(post_id):
 		db.session.commit()
 		flash(f'Commented on "{post.title}".', 'success')
 		return redirect(url_for('posts.post', post_id=post.id))
-	return render_template('post.html', title=post.title, post=post, comments=comments, form=form, submit='comment')
+	return render_template('post.html', title=post.title, post=post, comments=comments, form=form, submit='comment', description=f'{post.author.username} is offering {post.amountGiving} {post.giving} in return for {post.amountWanted} {post.wanted}')
 
 # EDIT EXISTING POST PAGE
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])

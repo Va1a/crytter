@@ -7,9 +7,9 @@ from crytter import mail
 # FUNCTION TO SEND RESET PASSWORD EMAIL
 def send_reset_email(user):
 	token = user.get_reset_token()
-	msg = Message('Reset Password Request for crytter.org', sender='forgot@crytter.org', recipients=[user.email])
+	msg = Message('Reset Password Request for crytter.org', sender='Crytter Password Reset', recipients=[user.email])
 	msg.body = f'''
-To reset your password, visit {url_for('users.resetPassword', token=token, _external=True)}
+To reset your password, visit {url_for('users.resetPassword', token=token, _external=True)} | This link will expire in 30 minutes.
 
 If you did not request a password reset then simply ignore this email and no changes will be made.
 '''

@@ -123,7 +123,7 @@ def userpage(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 
-	return render_template('userpage.html', posts=posts, user=user, title=user.username)
+	return render_template('userpage.html', posts=posts, user=user, title=user.username, description=f'Profile of {user.username} - {user.rating} reputability. {user.biography}')
 
 
 # USER RATINGS
@@ -159,7 +159,7 @@ def ratings(username):
 		db.session.commit()
 		flash(f'Rating {"Updated" if oldReview else "Submitted"}', 'success')
 		return redirect(url_for('users.ratings', username=user.username))
-	return render_template('ratingsreceived.html', ratings=ratings, user=user, form=form, oldReview=oldReview, title=user.username+' / ratings')
+	return render_template('ratingsreceived.html', ratings=ratings, user=user, form=form, oldReview=oldReview, title=user.username+' / ratings', description=f'{user.username} ratings - {user.rating} reputability')
 
 # RATINGS GIVEN BY USER TO OTHERS
 @users.route('/user/<string:username>/ratings-given')
@@ -167,7 +167,7 @@ def ratingsGiven(username):
 	page = request.args.get('p', 1, type=int)
 	user = User.query.filter_by(username=username).first_or_404()
 	ratings = Rating.query.filter_by(rater=user).order_by(Rating.date_rated.desc()).paginate(page=page, per_page=5)
-	return render_template('ratingsgiven.html', ratings=ratings, user=user, title=user.username+' / given ratings')
+	return render_template('ratingsgiven.html', ratings=ratings, user=user, title=user.username+' / given ratings', description=f'{user.username} - ratings given to others')
 
 
 # CHANGE PASSWORD PAGE
