@@ -9,7 +9,7 @@ class Config:
 	RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
 	PREFERRED_URL_SCHEME = 'https'
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
-	MAIL_SERVER = 'smtp.gmail.com'
+	MAIL_SERVER = 'smtp.sendgrid.net'
 	MAIL_PORT = 587
 	MAIL_USE_TLS = True
 	MAIL_USERNAME = os.environ.get('crytter-mail-user')
