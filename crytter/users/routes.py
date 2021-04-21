@@ -147,10 +147,10 @@ def ratings(username):
 		if current_user.rating >= 0 and ratePower == 0: ratePower = 1
 		if current_user.rating < 0: ratePower = 0
 		if form.rating.data == '+1':
-			newRating = Rating(ratee=user, rater=current_user, impact=ratePower, content=form.experience.data)
+			newRating = Rating(ratee=user, rater=current_user, impact=int(ratePower), content=form.experience.data)
 			user.rating += ratePower
 		else:
-			newRating = Rating(ratee=user, rater=current_user, impact=ratePower*-1, content=form.experience.data)
+			newRating = Rating(ratee=user, rater=current_user, impact=int(ratePower)*-1, content=form.experience.data)
 			user.rating -= ratePower
 		alert = Alert(assoc_user=user, type='rating', from_user=current_user.id, post_id='')
 		db.session.add(newRating)

@@ -4,4 +4,4 @@ include/*
 Lib/*
 Scripts/*
 pyenv.cfg
-site.db
+*.db
