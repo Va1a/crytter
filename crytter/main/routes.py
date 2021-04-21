@@ -18,14 +18,14 @@ main = Blueprint('main', __name__)
 def index():
 	today = Post.query.filter(func.date(Post.date_posted) == date.today()).count()
 	newest = Post.query.order_by(Post.date_posted.desc()).limit(3).all()
-	return render_template('index.html', numToday=today, newest=newest)
+	return render_template('index.html', numToday=today, newest=newest, title='Peer-to-Peer currency trading network')
 
 # POSTS PAGE
 @main.route('/posts')
 def home():
 	page = request.args.get('p', 1, type=int)
 	posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
-	return render_template('home.html', posts=posts)
+	return render_template('home.html', posts=posts, title='Offer Index')
 
 # ABOUT PAGE
 @main.route('/about')
