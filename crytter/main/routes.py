@@ -46,7 +46,7 @@ def favicon():
 @main.route('/help/<string:topic>')
 def help(topic):
 	try:
-		return render_template(f'help/{topic}.html', title=topic)
+		return render_template(f'help/{topic}.html', title='help / '+topic)
 	except TemplateNotFound:
 		abort(404)
 
@@ -79,7 +79,7 @@ def search():
 # advertise inquiry info
 @main.route('/advertise')
 def store():
-	return render_template('advertise.html', description=f'Advertise on crytter.org, the leading peer-to-peer currency trading network!')
+	return render_template('advertise.html', description=f'Advertise on crytter.org, the leading peer-to-peer currency trading network!', title='Advetise Offers')
 
 # USER MANAGEMENT
 @main.route('/manage', methods=['GET', 'POST'])

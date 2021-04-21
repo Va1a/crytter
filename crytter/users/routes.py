@@ -20,7 +20,7 @@ def register():
 		db.session.commit()
 		flash(f'Your account has been made, {form.username.data}. You can now login.', 'success')
 		return redirect(url_for('users.login'))
-	return render_template('register.html', title='Register', form=form)
+	return render_template('register.html', title='Register for a crytter account', form=form)
 
 #LOGIN TO EXISTING ACCOUNT
 @users.route('/login', methods=['GET', 'POST'])
@@ -42,7 +42,7 @@ def login():
 					return redirect(nextpage) if nextpage else redirect(url_for('main.home'))
 			else:
 				flash('invalid credentials', 'danger')
-	return render_template('login.html', title='login', form=form)
+	return render_template('login.html', title='Login to your crytter account', form=form)
 
 #LOGOUT CURRENTLY LOGGED IN ACCOUNT
 @users.route('/logout')
@@ -75,7 +75,7 @@ def profile():
 		form.biography.data = current_user.biography
 		form.picture.data = current_user.image_file[:-4]
 	imagefile = url_for('static', filename=f'profile_pics/{current_user.image_file}')
-	return render_template('profile.html', title='Profile', imagefile=imagefile, form=form)
+	return render_template('profile.html', title='Edit your profile', imagefile=imagefile, form=form)
 
 # VIEW YOUR ALERTS
 @users.route('/alerts')
@@ -92,7 +92,7 @@ def alerts():
 			db.session.delete(alert)
 			db.session.commit()
 	# we render the template before we change the alerts to all seen
-	prerendered_template = render_template('alerts.html', title='alerts', alerts=alerts)
+	prerendered_template = render_template('alerts.html', title='Alerts', alerts=alerts)
 	for alert in alerts.items:
 		alert.seen = True
 	db.session.commit()
@@ -183,7 +183,7 @@ def changePassword():
 		return redirect(url_for('users.profile'))
 	elif form.validate_on_submit() and not bcrypt.check_password_hash(current_user.password, form.oldpassword.data):
 		flash('invalid old password', 'danger')
-	return render_template('changePassword.html', title='Profile / Password', form=form)
+	return render_template('changePassword.html', title='Change your Password', form=form)
 
 # FORGOT PASSWORD PAGE
 @users.route('/forgot', methods=['GET', 'POST'])
