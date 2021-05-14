@@ -24,7 +24,7 @@
 	  <button class='btn btn-secondary btn-sm ml-3' onclick="location.href='{{ url_for('users.userpage', username=user.username) }}'">posts ({{user.posts|length}})</button>
 	 </div>
 	<div class="content-section" style="height: fit-content;">
-	{% if current_user != user %}<button class='btn btn-success btn-sm' data-toggle="modal" data-target="#userRatingModal">{% if oldReview %}edit{% else %}add{% endif %} rating</button>{% endif %}
+	{% if current_user != user %}<button class='btn btn-success btn-sm' data-toggle="modal" data-target="#userRatingModal">{% if oldReview %}edit{% else %}add{% endif %} rating</button>{% else %}<button class='btn btn-success btn-sm' style="visibility: hidden;">a</button>{% endif %}
 	<button class='btn btn-outline-danger btn-sm pull-right' onclick="location.href = '{{url_for('users.ratingsGiven', username=user.username)}}'">ratings given</button>
 	<button class='btn btn-danger btn-sm mr-1 pull-right hideWhenSmall'>ratings received</button>
 	</div>
