@@ -91,7 +91,6 @@ var currencyDropped = getCookie('currencyDropdown');
 	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('users.alerts') }}"><span class="fa fa-bell"></span> Alerts {% if current_user.alerts|rejectattr("seen")|list %}<span style="color: #f92672;">({{ current_user.alerts|rejectattr("seen")|list|length if current_user.alerts|rejectattr("seen")|list|length < 99 else '99+' }})</span>{% endif %}</a></li>
 	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('users.ratings', username=current_user.username) }}"><span class="fa fa-check-square-o"></span> Reputation <span class="{{ 'red' if current_user.rating < 0 else 'green'}}">({{ current_user.rating }})</span></li></a>
 	            {% if current_user.permission_level > 2%}<li class="list-group-item list-group-item-light"><a href="{{ url_for('main.admin') }}"><span class="fa fa-shield"></span> Manage</a></li>{% endif %}
-	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('main.help', topic='rules') }}"><span class="fa fa-hand-paper-o"></span> Rules</a></li>
 	          </ul>
 	        </p>
 	        {% else %}
@@ -102,7 +101,6 @@ var currencyDropped = getCookie('currencyDropdown');
 	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('main.search') }}"><span class="fa fa-search"></span> Search</a></li>
 	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('users.login') }}"><span class="fa fa-key"></span> Login</a></li>
 	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('users.register') }}"><span class="fa fa-user"></span> Register</a></li>
-	            <li class="list-group-item list-group-item-light"><a href="{{ url_for('main.help', topic='rules') }}"><span class="fa fa-hand-paper-o"></span> Rules</a></li>
 	          </ul>
 	        </p>
 	        {% endif %}
@@ -149,6 +147,7 @@ var currencyDropped = getCookie('currencyDropdown');
 					
 		     	 </div>
 		    </div>
+	    <small style="color: #585d61; display: block; text-align: center;">© crytter ● <a href="{{ url_for('main.help', topic='rules') }}">rules</a> ● <a href="{{ url_for('main.help', topic='terms') }}">terms</a></small>
 	    </div>
 	  </div>
 	<script type="text/javascript">if(currencyDropped == 'true'){document.getElementById('currencyList').classList.add('show'); e = document.getElementById('down-arrow'); e.classList.remove('fa-angle-double-down'); e.classList.add('fa-angle-double-up')}</script>
