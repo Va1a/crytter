@@ -20,7 +20,7 @@ class RegistrationForm(FlaskForm):
 		DataRequired(), EqualTo('password', message='Passwords must match.')
 		])
 
-	terms = BooleanField('I agree to the Terms & Conditions as well as the Rules & Guidelines of crytter.org', validators=[DataRequired(message='You must agree to create an account.')])
+	terms = BooleanField('I agree to the Terms & Conditions as well as the Rules & Guidelines', validators=[DataRequired(message='You must agree to create an account.')])
 
 	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
 	submit = SubmitField('create account')
@@ -45,7 +45,7 @@ class LoginForm(FlaskForm):
 	remember = BooleanField('Stay logged in?')
 	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
 
-	submit = SubmitField('Log in')
+	submit = SubmitField('Log In')
 
 class UpdateProfileForm(FlaskForm):
 	username = StringField('Username', validators=[

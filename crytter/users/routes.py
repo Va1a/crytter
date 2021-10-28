@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from crytter import db, bcrypt
 from crytter.models import User, Post, Comment, Alert, Badge, Rating
 from crytter.users.forms import RegistrationForm, LoginForm, UpdateProfileForm, UpdatePasswordForm, RequestResetForm, ResetPasswordForm, RateUserForm
-from crytter.users.utils import send_reset_email, verifyPerms, rateToHTML
+from crytter.users.utils import verifyPerms, rateToHTML #, send_reset_email
 
 users = Blueprint('users', __name__)
 
@@ -41,7 +41,7 @@ def login():
 					flash(f'Logged in as {user.username}.', 'success')
 					return redirect(nextpage) if nextpage else redirect(url_for('main.home'))
 			else:
-				flash('invalid credentials', 'danger')
+				flash('Invalid Credentials.', 'danger')
 	return render_template('login.html', title='Login to your crytter account', form=form)
 
 #LOGOUT CURRENTLY LOGGED IN ACCOUNT
@@ -67,7 +67,7 @@ def profile():
 		current_user.email = form.email.data
 		current_user.biography = form.biography.data
 		db.session.commit()
-		flash('profile updated', 'success')
+		flash('Profile Updated!', 'success')
 		return redirect(url_for('users.profile'))
 	elif request.method == 'GET':
 		form.username.data = current_user.username
@@ -179,34 +179,36 @@ def changePassword():
 		hashedpw = bcrypt.generate_password_hash(form.newpassword.data).decode('utf-8')
 		current_user.password = hashedpw
 		db.session.commit()
-		flash('password updated', 'success')
+		flash('Password Updated!', 'success')
 		return redirect(url_for('users.profile'))
 	elif form.validate_on_submit() and not bcrypt.check_password_hash(current_user.password, form.oldpassword.data):
-		flash('invalid old password', 'danger')
+		flash('Invalid old password!', 'danger')
 	return render_template('changePassword.html', title='Change your Password', form=form)
 
-# FORGOT PASSWORD PAGE
-@users.route('/forgot', methods=['GET', 'POST'])
-def forgot():
-	if current_user.is_authenticated:
-		return redirect(url_for('users.profile'))
-	form = RequestResetForm()
-	if form.validate_on_submit():
-		user = User.query.filter_by(email=form.email.data).first()
-		send_reset_email(user)
-		flash('Password reset email sent. Please check junk/spam folders if the email does not appear in your inbox.', 'info')
-		return redirect(url_for('users.login'))
-	return render_template('forgot.html', title='Reset Password', form=form)
+# FORGOT PASSWORD PAGE (SCRAPPED! (SENDGRID IS EXPENSIVE!!!))
+# @users.route('/forgot', methods=['GET', 'POST'])
+# def forgot():
+# 	if current_user.is_authenticated:
+# 		return redirect(url_for('users.profile'))
+# 	form = RequestResetForm()
+# 	if form.validate_on_submit():
+# 		user = User.query.filter_by(email=form.email.data).first()
+# 		send_reset_email(user)
+# 		flash('Password reset email sent. Please check junk/spam folders if the email does not appear in your inbox.', 'info')
+# 		return redirect(url_for('users.login'))
+# 	return render_template('forgot.html', title='Reset Password', form=form)
 
 #FORGOT PASSWORD RESET PAGE
+#Note that users are unable to reset their passwords via email. 
+#However, this route endpoint is not being removed as there may be a situation where
+#an administrator wants to generate a reset token.
 @users.route('/forgot/<token>', methods=['GET', 'POST'])
 def resetPassword(token):
 	if current_user.is_authenticated:
 		return redirect(url_for('users.profile'))
 	user = User.verify_reset_token(token)
 	if not user:
-		flash('Invalid or expired password reset link!', 'danger')
-		return redirect(url_for('users.forgot'))
+		abort(404)
 	form = ResetPasswordForm()
 	if form.validate_on_submit():
 		hashedpw = bcrypt.generate_password_hash(form.newpassword.data).decode('utf-8')

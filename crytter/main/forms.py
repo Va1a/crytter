@@ -6,7 +6,7 @@ from crytter.posts.validators import NotEqualTo, cryptoList
 class SearchForm(FlaskForm):
 	wanted = SelectField('Currency you want:', choices=cryptoList, validators=[DataRequired()], default='BTC')
 	giving = SelectField('Currency you will give:', choices=cryptoList, validators=[DataRequired(), NotEqualTo('wanted', message='You cannot give the same currency you want.')])
-	sortby = SelectField('Sort by:', choices=['Newest', 'Oldest',  'Highest Credibility', 'Highest Quantity', 'Lowest Quantity'], validators=[DataRequired()])
+	sortby = SelectField('Sort by:', choices=['Newest', 'Oldest',  'Offeror Reputability', 'Highest Quantity', 'Lowest Quantity'], validators=[DataRequired()])
 	submit = SubmitField('Search Offers')
 
 class AssignBadgeForm(FlaskForm):

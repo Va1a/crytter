@@ -30,13 +30,13 @@ function getPrice(ofCurr, elementToUpdate, showChange=false){
     price = parseFloat(data.data.rates.USD);
     elementToUpdate.textContent = '$'+ parseFloat(price).toFixed(2);
   });
-  if(showChange){
-    console.log('price: '+price+', old price: '+oldPrice);
-    var percentChange = ((price / oldPrice) - 1)*100;
-    console.log(percentChange+'%');
-    document.getElementById(elementToUpdate.id+'-change-symb').className = (percentChange >= 0) ? 'fa fa-long-arrow-up' : 'fa fa-long-arrow-down';
-    document.getElementById(elementToUpdate.id+'-change').textContent = percentChange.toFixed(2)+'%';
-  }
+  // if(showChange){
+  //   console.log('price: '+price+', old price: '+oldPrice);
+  //   var percentChange = ((price / oldPrice) - 1)*100;
+  //   console.log(percentChange+'%');
+  //   document.getElementById(elementToUpdate.id+'-change-symb').className = (percentChange >= 0) ? 'fa fa-long-arrow-up' : 'fa fa-long-arrow-down';
+  //   document.getElementById(elementToUpdate.id+'-change').textContent = percentChange.toFixed(2)+'%';
+  // }
 
 }
 

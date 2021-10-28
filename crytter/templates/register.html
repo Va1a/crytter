@@ -58,10 +58,11 @@
 					{% else %}
 					{{ form.confirm_password(class='form-control form-control-lg') }}
 					{% endif %}
+					<small><i>To protect accounts, you are unable to reset your password via email - make sure you remember it and keep it safe</i></small>
 				</div>
 				<div class='form-check'>
 					{{ form.terms(class='form-check-input') }}
-					I agree to the <a href="{{url_for('main.help', topic='terms')}}"><u>Terms & Conditions</u></a> as well as the <a href="{{url_for('main.help', topic='rules')}}"><u>Rules & Guidelines</u></a> of crytter.org.				
+					I agree to the <a href="{{url_for('main.help', topic='terms')}}"><u>Terms & Conditions</u></a> as well as the <a href="{{url_for('main.help', topic='rules')}}"><u>Rules & Guidelines</u></a>.				
 				</div>
 				<div class="form-group">
 					{{ form.recaptcha.label(class='form-control-label') }}

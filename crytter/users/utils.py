@@ -1,22 +1,22 @@
 import re
 import secrets
 from flask import url_for, current_app
-from flask_mail import Message
-from crytter import mail
+# from flask_mail import Message
+# from crytter import mail
 
-# FUNCTION TO SEND RESET PASSWORD EMAIL
-def send_reset_email(user):
-	token = user.get_reset_token()
-	msg = Message('Reset Password Request for crytter.org', sender='forgot@crytter.org', recipients=[user.email])
-	msg.body = f'''
-To reset your password, visit {url_for('users.resetPassword', token=token, _external=True)}
+# FUNCTION TO SEND RESET PASSWORD EMAIL (inactive)
+# def send_reset_email(user):
+# 	token = user.get_reset_token()
+# 	msg = Message('Reset Password Request for crytter.org', sender='forgot@crytter.org', recipients=[user.email])
+# 	msg.body = f'''
+# To reset your password, visit {url_for('users.resetPassword', token=token, _external=True)}
 
-This link will expire in 30 minutes.
+# This link will expire in 30 minutes.
 
-If you did not request a password reset then simply ignore this email and no changes will be made.
-This email was sent as a result of direct user action and therefore cannot be unsubscribed from.
-'''
-	mail.send(msg)
+# If you did not request a password reset then simply ignore this email and no changes will be made.
+# This email was sent as a result of direct user action and therefore cannot be unsubscribed from.
+# '''
+# 	mail.send(msg)
 
 # Ensures a user has the permissions to log in.
 def verifyPerms(user):
