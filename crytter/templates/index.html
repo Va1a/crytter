@@ -10,24 +10,24 @@
 		<h1 style="text-align: center; margin-bottom: 0.01rem;"><span class="get">{{ numToday }}</span> new offers today</h1>
 	<hr class="">
 	<div class="container" style="padding: 0px; margin: 0px; height: 60%;"> <div class="row" style="padding: 0px; margin: 0px; height: 60%;"><div class="col-sm">
-		<h5>Bitcoin <img src="static/crypto/bitcoin-btc-logo.svg" width="25px" height="25px"> <samp id="big-btc">---</samp></h5>
-		<h5>Ethereum <img src="static/crypto/ethereum-eth-logo.svg" width="25px" height="25px"> <samp id="big-eth">---</samp></h5>
-		<h5>Monero <img src="static/crypto/monero-xmr-logo.svg" width="25px" height="25px"> <samp id="big-xmr">---</samp></h5>
+		<h5>Bitcoin <img src="static/crypto/bitcoin-btc-logo.svg" width="25px" height="25px"> <samp id="big-btc">---</samp></h5> <span id="big-btc-change-symb"></span><small id="big-btc-change"></small>
+		<h5>Ethereum <img src="static/crypto/ethereum-eth-logo.svg" width="25px" height="25px"> <samp id="big-eth">---</samp></h5> <span id="big-eth-change-symb"></span><small id="big-eth-change"></small>
+		<h5>Monero <img src="static/crypto/monero-xmr-logo.svg" width="25px" height="25px"> <samp id="big-xmr">---</samp></h5> <span id="big-xmr-change-symb"></span><small id="big-xmr-change"></small>
 		</div>
 		<div class="col-sm hideWhenSmall">
-			<h5>XRP <img src="static/crypto/xrp-xrp-logo.svg" width="25px" height="25px"> <samp id="big-xrp">---</samp></h5>
-			<h5>Binance Coin <img src="static/crypto/binance-coin-bnb-logo.svg" width="25px" height="25px"> <samp id="big-bnb">---</samp></h5>
-			<h5>Litecoin <img src="static/crypto/litecoin-ltc-logo.svg" width="25px" height="25px"> <samp id="big-ltc">---</samp></h5>
+			<h5>XRP <img src="static/crypto/xrp-xrp-logo.svg" width="25px" height="25px"> <samp id="big-xrp">---</samp></h5> <span id="big-xrp-change-symb"></span><small id="big-xrp-change"></small>
+			<h5>Binance Coin <img src="static/crypto/binance-coin-bnb-logo.svg" width="25px" height="25px"> <samp id="big-bnb">---</samp></h5> <span id="big-bnb-change-symb"></span><small id="big-bnb-change"></small>
+			<h5>Litecoin <img src="static/crypto/litecoin-ltc-logo.svg" width="25px" height="25px"> <samp id="big-ltc">---</samp></h5> <span id="big-ltc-change-symb"></span><small id="big-ltc-change"></small>
         </div>
 </div></div></div>
 <script type="text/javascript">
 (async function indexPrices(){
-	getPrice('BTC', document.getElementById('big-btc'));
-	getPrice('ETH', document.getElementById('big-eth'));
-	getPrice('XMR', document.getElementById('big-xmr'));
-	getPrice('XRP', document.getElementById('big-xrp'));
-	getPrice('BNB', document.getElementById('big-bnb'));
-	getPrice('LTC', document.getElementById('big-ltc'));
+	getPrice('BTC', document.getElementById('big-btc'), showChange=true);
+	getPrice('ETH', document.getElementById('big-eth'), showChange=true);
+	getPrice('XMR', document.getElementById('big-xmr'), showChange=true);
+	getPrice('XRP', document.getElementById('big-xrp'), showChange=true);
+	getPrice('BNB', document.getElementById('big-bnb'), showChange=true);
+	getPrice('LTC', document.getElementById('big-ltc'), showChange=true);
 	setTimeout(indexPrices, 15000);
 })();
 </script>

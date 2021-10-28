@@ -17,11 +17,27 @@ function setInputFilter(textbox, inputFilter) {
   });
 }
 
-function getPrice(ofCurr, elementToUpdate){
+function getPrice(ofCurr, elementToUpdate, showChange=false){
+  var price;
+  const oldPrice = parseFloat(elementToUpdate.textContent.slice(1));
+  if(!isNaN(elementToUpdate.textContent.slice(1)) && showChange){
+    showChange = true;
+  } else {
+    showChange = false;
+  }
   url = 'https://api.coinbase.com/v2/exchange-rates?currency='+ofCurr;
   $.get(url, function(data, status){
-    elementToUpdate.textContent = '$'+ parseFloat(data.data.rates.USD).toFixed(2);
+    price = parseFloat(data.data.rates.USD);
+    elementToUpdate.textContent = '$'+ parseFloat(price).toFixed(2);
   });
+  if(showChange){
+    console.log('price: '+price+', old price: '+oldPrice);
+    var percentChange = ((price / oldPrice) - 1)*100;
+    console.log(percentChange+'%');
+    document.getElementById(elementToUpdate.id+'-change-symb').className = (percentChange >= 0) ? 'fa fa-long-arrow-up' : 'fa fa-long-arrow-down';
+    document.getElementById(elementToUpdate.id+'-change').textContent = percentChange.toFixed(2)+'%';
+  }
+
 }
 
 async function dealValue(hasC, wantsC){
