@@ -81,7 +81,7 @@ var currencyDropped = getCookie('currencyDropdown');
 	      {% endwith %}
 	      {% block content %}{% endblock %}
 	    </div>
-	    <div class="col-md-4">
+	    <div class="col-md-4" style="height: calc(100vh - 110px); overflow-y: scroll;">
 	      <div class="content-section">
 	      	{% if current_user.is_authenticated %}
 	        <p class='text-muted'>
