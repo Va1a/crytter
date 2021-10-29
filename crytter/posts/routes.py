@@ -15,7 +15,7 @@ def new_post():
 		post = Post(title=f'I want {form.howMuchWanted.data} {form.wanted.data}, I\'ll give {form.howMuchGiving.data} {form.giving.data}', content=form.content.data, author=current_user, wanted=form.wanted.data, amountWanted=float(form.howMuchWanted.data), giving=form.giving.data, amountGiving=float(form.howMuchGiving.data))
 		db.session.add(post)
 		db.session.commit()
-		flash(f'Posted your offer.', 'success')
+		flash(f'Offer posted.', 'success')
 		return redirect(url_for('posts.post', post_id=post.id))
 	return render_template('newpost.html', title='New Offer', form=form, legend='New Offer', submit='Post Offer')
 
