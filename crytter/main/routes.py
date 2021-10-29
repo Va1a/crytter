@@ -165,17 +165,20 @@ def admin():
 				ratings = Rating.query.filter_by(rater=user).all()
 				badges = Badge.query.filter_by(bearer=user).all()
 				receivedRatings = Rating.query.filter_by(ratee=user).all()
+				givenRatings = Rating.query.filter_by(rater=user).all()
 				comments = Comment.query.filter_by(author=user).all()
-				alerts = Alert.query.filter_by(user_id=user).all()
+				alerts = Alert.query.filter_by(assoc_user=user).all()
 				alertsFrom = Alert.query.filter_by(from_user=user.id).all()
 				for post in posts:
-					postComms = Comment.query.filter_by(assoc_post=post)
+					postComms = Comment.query.filter_by(post_id=post.id).all()
 					for comment in postComms:
 						db.session.delete(comment)
 					db.session.delete(post)
 				for rate in ratings:
 					db.session.delete(rate)
 				for rate in receivedRatings:
+					db.session.delete(rate)
+				for rate in givenRatings:
 					db.session.delete(rate)
 				for comment in comments:
 					db.session.delete(comment)

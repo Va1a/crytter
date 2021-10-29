@@ -23,7 +23,7 @@ class RegistrationForm(FlaskForm):
 	terms = BooleanField('I agree to the Terms & Conditions as well as the Rules & Guidelines', validators=[DataRequired(message='You must agree to create an account.')])
 
 	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
-	submit = SubmitField('create account')
+	submit = SubmitField('Create Account')
 
 	def validate_username(self, username):
 		user = User.query.filter_by(username=username.data).first()
