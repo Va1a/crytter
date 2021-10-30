@@ -102,8 +102,8 @@ async function liveOfferPrices(){
 	hmw = parseFloat(document.getElementById("HMW").value);
 	hmg = parseFloat(document.getElementById("HMG").value);
 
-	document.getElementById('gAmount').textContent = 'ex. '+parseFloat(hasOfWants*hmw).toFixed(5).replace("NaN", "---")+' '+document.getElementById("giving").value;
-	document.getElementById('wAmount').textContent = 'ex. '+parseFloat(giveOfHas*hmg).toFixed(5).replace("NaN", "---")+' '+document.getElementById("wanted").value;
+	document.getElementById('gAmount').textContent = 'Suggested: '+parseFloat(hasOfWants*hmw).toFixed(5).replace("NaN", "---")+' '+document.getElementById("giving").value;
+	document.getElementById('wAmount').textContent = 'Suggested: '+parseFloat(giveOfHas*hmg).toFixed(5).replace("NaN", "---")+' '+document.getElementById("wanted").value;
 	setTimeout(liveOfferPrices, 10000);
 };
 document.getElementById("HMW").oninput = liveOfferPrices;

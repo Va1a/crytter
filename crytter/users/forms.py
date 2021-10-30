@@ -55,8 +55,8 @@ class UpdateProfileForm(FlaskForm):
 		DataRequired(), Email()
 		])
 	biography = TextAreaField('Biography', validators=[
-		Length(min=0, max=75),
-		Regexp(r'^(?:[\x20-\x7E])+$', message='Irregular characters are not supported in biographies due to impersonation tactics.')
+		Length(min=0, max=128),
+		Regexp(r'^(?:[\x20-\x7E])+$', message='Irregular characters are not supported in biographies to prevent impersonation tactics.')
 		])
 
 	picture = SelectField('Avatar Color', choices=[
