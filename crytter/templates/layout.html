@@ -12,11 +12,11 @@
 	<meta property="og:type" content="article">
 	<meta property="article:published_time" content="{{ post.date_posted.strftime('%m-%d-%Y') }}">
 	{% endif %}
-	<meta property="og:site_name" content="crytter">
+	<meta property="og:site_name" content="dKYP">
 	<meta property="og:description" content="{{ description if description else 'The peer-to-peer multi currency exchange network. Trade your currencies in a decentralized manner and build up your reputation, view and post live offers!' }}">
-	<meta property="og:title" content="{{ title if title else 'crytter.org | peer-to-peer currency exchange'}} | crytter">
+	<meta property="og:title" content="{{ title if title else 'dKYP.net | peer-to-peer currency exchange'}} | dKYP">
 	<meta property="og:image" content="{{ url_for('static', filename='crytter.png', _external=True) }}">
-	<meta name="twitter:title" content="{{ title if title else 'crytter.org | peer-to-peer currency exchange'}} | crytter">
+	<meta name="twitter:title" content="{{ title if title else 'dKYP.net | peer-to-peer currency exchange'}} | dKYP">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -28,7 +28,7 @@
 	{% if title %}
 	<title>{{ title }}</title>
 	{% else %}
-	<title>crytter</title>
+	<title>dKYP</title>
 	{% endif %}
 </head>
 <script>
@@ -42,7 +42,7 @@ var currencyDropped = getCookie('currencyDropdown');
 	<header class="site-header">
 	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 	    <div class="container">
-	      <a class="navbar-brand mr-4" href="/">crytter</a>
+	      <a class="navbar-brand mr-4" href="/">dKYP</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -147,7 +147,7 @@ var currencyDropped = getCookie('currencyDropdown');
 					
 		     	 </div>
 		    </div>
-	    <small style="color: #585d61; display: block; text-align: center;">© crytter ● <a href="{{ url_for('main.help', topic='rules') }}">rules</a> ● <a href="{{ url_for('main.help', topic='terms') }}">terms</a></small>
+	    <small style="color: #585d61; display: block; text-align: center;">© dKYP ● <a href="{{ url_for('main.help', topic='rules') }}">rules</a> ● <a href="{{ url_for('main.help', topic='terms') }}">terms</a></small>
 	    </div>
 	  </div>
 	<script type="text/javascript">if(currencyDropped == 'true'){document.getElementById('currencyList').classList.add('show'); e = document.getElementById('down-arrow'); e.classList.remove('fa-angle-double-down'); e.classList.add('fa-angle-double-up')}</script>
