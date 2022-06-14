@@ -7,7 +7,7 @@ from flask import url_for, current_app
 # FUNCTION TO SEND RESET PASSWORD EMAIL (inactive)
 # def send_reset_email(user):
 # 	token = user.get_reset_token()
-# 	msg = Message('Reset Password Request for crytter.org', sender='forgot@crytter.org', recipients=[user.email])
+# 	msg = Message('Reset Password Request for DKYP.net', sender='forgot@dkyp.net', recipients=[user.email])
 # 	msg.body = f'''
 # To reset your password, visit {url_for('users.resetPassword', token=token, _external=True)}
 

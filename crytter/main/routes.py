@@ -71,15 +71,15 @@ def search():
 		form.giving.data = request.args.get('g', 'USD', type=str)
 		form.sortby.data = request.args.get('s', 'Newest', type=str)
 		result = getSearchResults(form, page)
-		return render_template('search.html', title='Search Results', form=form, legend='Search', search=True, posts=result, description=f'crytter search results for {form.wanted.data} offers which take {form.giving.data}, sorted by {form.sortby.data}')
+		return render_template('search.html', title='Search Results', form=form, legend='Search', search=True, posts=result, description=f'DKYP search results for {form.wanted.data} offers which take {form.giving.data}, sorted by {form.sortby.data}')
 
 
-	return render_template('search.html', title='Search', form=form, legend='Search', search=False, description=f'Search all of crytter.org\'s offers! Peer-to-peer multicurrency trading network.')
+	return render_template('search.html', title='Search', form=form, legend='Search', search=False, description=f'Search all of DKYP.net\'s offers! Peer-to-peer multicurrency trading network.')
 
 # advertise inquiry info
 @main.route('/advertise')
 def store():
-	return render_template('advertise.html', description=f'Advertise on crytter.org, the leading peer-to-peer currency trading network!', title='Advetise Offers')
+	return render_template('advertise.html', description=f'Advertise on DKYP.net the peer-to-peer currency trading network!', title='Advetise Offers')
 
 # USER MANAGEMENT
 @main.route('/manage', methods=['GET', 'POST'])

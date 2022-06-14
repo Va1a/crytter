@@ -20,7 +20,7 @@ def register():
 		db.session.commit()
 		flash(f'Your account has been made, {form.username.data}. You can now login.', 'success')
 		return redirect(url_for('users.login'))
-	return render_template('register.html', title='Register for a crytter account', form=form)
+	return render_template('register.html', title='Register for a DKYP account', form=form)
 
 #LOGIN TO EXISTING ACCOUNT
 @users.route('/login', methods=['GET', 'POST'])
@@ -34,7 +34,7 @@ def login():
 				user = User.query.filter_by(email=form.usernameORemail.data).first()
 			if user and bcrypt.check_password_hash(user.password, form.password.data):
 				if not verifyPerms(user):
-					flash('Your account has been locked. Email contact@crytter.org for assistance.', 'danger')
+					flash('Your account has been locked. Email lockout@dkyp.net for assistance.', 'danger')
 				else:
 					login_user(user, remember=form.remember.data)
 					nextpage = request.args.get('next')
@@ -42,7 +42,7 @@ def login():
 					return redirect(nextpage) if nextpage else redirect(url_for('main.home'))
 			else:
 				flash('Invalid Credentials.', 'danger')
-	return render_template('login.html', title='Login to your crytter account', form=form)
+	return render_template('login.html', title='Login to your DKYP account', form=form)
 
 #LOGOUT CURRENTLY LOGGED IN ACCOUNT
 @users.route('/logout')
