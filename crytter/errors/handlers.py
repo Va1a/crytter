@@ -17,3 +17,7 @@ def error500(error):
 @errors.app_errorhandler(405)
 def error405(error):
 	return render_template('errors/405.html'), 405
+
+@errors.app_errorhandler(410)
+def error410(error):
+	return render_template('errors/410.html'), 410

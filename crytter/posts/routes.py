@@ -23,6 +23,13 @@ def new_post():
 @posts.route('/post/<int:post_id>', methods=["GET",'POST'])
 def post(post_id):
 	post = Post.query.get_or_404(post_id)
+	if (datetime.utcnow()-post.date_posted).seconds >= 86400:
+		post.title = 'Expired Offer'
+		db.session.commit()
+	if post.title == 'Expired Offer' and post.author != current_user:
+		abort(410)
+	elif post.title == 'Expired Offer' and post.author == current_user:
+		flash('Expired Offer - Only you can view this offer', 'warning')
 	page = request.args.get('page', 1, type=int)
 	comments = Comment.query.filter_by(post_id=post.id).order_by(Comment.date_commented.desc()).paginate(page=page, per_page=5)
 	form = CommentForm()

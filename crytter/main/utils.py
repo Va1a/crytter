@@ -12,4 +12,6 @@ def getSearchResults(form, page):
 	elif form.sortby.data == 'Lowest Quantity':
 		result = Post.query.filter(Post.giving == form.wanted.data, Post.wanted == form.giving.data).order_by(Post.sticky.desc(), Post.amountGiving.asc()).paginate(page=page, per_page=5)
 
+	result = [post for post in result if post.title != 'Expired Offer']
+
 	return result
