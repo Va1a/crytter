@@ -4,6 +4,8 @@ from crytter import db
 from crytter.models import Post, Comment, Alert
 from crytter.posts.forms import PostForm, CommentForm
 
+from datetime import datetime
+
 posts = Blueprint('posts', __name__)
 
 # MAKE NEW POST PAGE
