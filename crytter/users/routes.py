@@ -123,7 +123,7 @@ def userpage(username):
 	user = User.query.filter_by(username=username).first_or_404()
 	posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
 	if current_user != user:
-		posts = [post for post in posts if post.title != 'Expired Offer']
+		posts.items = [post for post in posts.items if post.title != 'Expired Offer']
 	return render_template('userpage.html', posts=posts, user=user, title=user.username, description=f'Profile of {user.username} - {user.rating} reputability. {user.biography}')
 
 
