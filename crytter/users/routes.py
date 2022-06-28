@@ -126,6 +126,16 @@ def userpage(username):
 		posts.items = [post for post in posts.items if post.title != 'Expired Offer']
 	return render_template('userpage.html', posts=posts, user=user, title=user.username, description=f'Profile of {user.username} - {user.rating} reputability. {user.biography}')
 
+@users.route('/permalink/<int:id>')
+def permalink(id):
+	user = User.query.get_or_404(id)
+	return redirect(url_for('users.userpage', username=user.username))
+
+@users.route('/@<string:username>')
+def shortLink(username):
+	user = User.query.filter_by(username=username).first_or_404()
+	return redirect(url_for('users.userpage', username=user.username))
+
 
 # USER RATINGS
 @users.route('/user/<string:username>/ratings', methods=['GET', 'POST'])
