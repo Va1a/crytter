@@ -8,7 +8,7 @@
 	      <h2 class="account-heading" style="word-break: normal;">{{ current_user.username }}{% for badge in current_user.badges[:3] %}<span title="{{ badge.name }}" class="ml-1 {{ badge.html }}"></span>{% endfor %}
 	      	{{ current_user.rateBar|safe }}
 	      </h2>
-	      <p class="account-metadata text-secondary">UID <b title="Click to copy permalink to this user's page." style="cursor: pointer;" onclick="navigator.clipboard.writeText('{{ url_for('users.permalink', id=user.id, _external=True) }}');">{{ user.id }}</b> | <b>{{user.rating}}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
+	      <p class="account-metadata text-secondary">UID <b title="Click to copy permalink to your page." style="cursor: pointer;" onclick="navigator.clipboard.writeText('{{ url_for('users.permalink', id=current_user.id, _external=True) }}');">{{ current_user.id }}</b> | <b>{{current_user.rating}}</b> reputability | Joined on <b>{{ current_user.date_joined.strftime('%B %d, %Y') }}</b>
 	      </p>
 	    </div>
 	  </div>
