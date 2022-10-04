@@ -74,6 +74,8 @@ def profile():
 		form.email.data = current_user.email
 		form.biography.data = current_user.biography
 		form.picture.data = current_user.image_file[:-4]
+	else:
+		flash('Please check profile fields and try again', 'danger')
 	imagefile = url_for('static', filename=f'profile_pics/{current_user.image_file}')
 	return render_template('profile.html', title='Edit your profile', imagefile=imagefile, form=form)
 

@@ -7,7 +7,8 @@
 		  <a style='float:right;'class='btn btn-outline-secondary mt-2' onclick='location.href="{{ url_for('users.userpage', username=current_user.username) }}";'>view profile</a>
 	      <h2 class="account-heading" style="word-break: normal;">{{ current_user.username }}{% for badge in current_user.badges[:3] %}<span title="{{ badge.name }}" class="ml-1 {{ badge.html }}"></span>{% endfor %}
 	      	{{ current_user.rateBar|safe }}
-	      </h2>	      <p class="account-metadata text-secondary"><b>{{ current_user.posts|length }}</b> {% if current_user.posts|length == 1 %} post {% else %} posts {% endif %} | <b>{{current_user.rating}}</b> reputability | Joined on <b>{{ current_user.date_joined.strftime('%B %d, %Y') }}</b>
+	      </h2>
+	      <p class="account-metadata text-secondary">UID <b title="Click to copy permalink to this user's page." style="cursor: pointer;" onclick="navigator.clipboard.writeText('{{ url_for('users.permalink', id=user.id, _external=True) }}');">{{ user.id }}</b> | <b>{{user.rating}}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
 	      </p>
 	    </div>
 	  </div>
