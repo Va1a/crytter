@@ -16,4 +16,6 @@ class PostForm(FlaskForm):
 
 class CommentForm(FlaskForm):
 	content = TextAreaField('Add a Comment', validators=[DataRequired(), Length(min=1, max=1000)])
+
+	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
 	submit = SubmitField('comment')

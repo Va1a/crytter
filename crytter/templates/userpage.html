@@ -16,7 +16,7 @@
 	      <h2 class="account-heading" style="word-break: normal;">{{ user.username }}{% for badge in user.badges[:3] %}<span title="{{ badge.name }}" class="ml-1 {{ badge.html }}"></span>{% endfor %}
 	      	{{ user.rateBar|safe }}
 	      </h2>
-	      <p class="account-metadata text-secondary">UID <b title="Click to copy permalink to this user's page." onclick="navigator.clipboard.writeText('{{ url_for('users.permalink', id=user.id, _external=True) }}');">{{ user.id }}</b> | <b>{{user.rating}}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
+	      <p class="account-metadata text-secondary">UID <b title="Click to copy permalink to this user's page." style="cursor: pointer;" onclick="navigator.clipboard.writeText('{{ url_for('users.permalink', id=user.id, _external=True) }}');">{{ user.id }}</b> | <b>{{user.rating}}</b> reputability | Joined on <b>{{ user.date_joined.strftime('%B %d, %Y') }}</b>
 	      </p>
 	      <p class="text-secondary"><i>{{ user.biography }}</i></p>
 	    </div>

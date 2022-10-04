@@ -70,6 +70,7 @@ class UpdateProfileForm(FlaskForm):
 		],
 		 validators=[])
 
+	recaptcha = RecaptchaField(validators=[Recaptcha(message="Prove you are not a robot.")])
 	submit = SubmitField('Update Profile')
 
 	def validate_username(self, username):
