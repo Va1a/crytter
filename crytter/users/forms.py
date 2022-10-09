@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm, RecaptchaField, Recaptcha
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Regexp, ValidationError, Optional
 from flask_login import current_user
 from crytter.models import User
 
@@ -55,7 +55,8 @@ class UpdateProfileForm(FlaskForm):
 		DataRequired(), Email()
 		])
 	biography = TextAreaField('Biography', validators=[
-		Length(min=0, max=128),
+		Optional(),
+		Length(min=0, max=256),
 		Regexp(r'^(?:[\x20-\x7E])+$', message='Irregular characters are not supported in biographies to prevent impersonation tactics.')
 		])
 
