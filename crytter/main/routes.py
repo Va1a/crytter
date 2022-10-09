@@ -38,6 +38,11 @@ def about():
 def robots():
 	return send_from_directory('static', 'robots.txt')
 
+# DISCORD
+@main.route('/discord')
+def discord():
+	return redirect('https://discord.gg/6wYH3WE88x'), 302
+
 # FAVICON
 @main.route('/favicon.ico')
 def favicon():
