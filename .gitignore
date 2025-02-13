@@ -7,4 +7,5 @@ pyvenv.cfg
 Scripts/*
 pyenv.cfg
 *.db
+.env
 .DS_STORE
